@@ -43,7 +43,7 @@ object TalonSRXFactory {
                                                analogTempVBatStatusFrameRateMs = 1000,
                                                pulseWidthStatusFrameRateMs = 1000)
 
-    fun createTalon(id: Int, config: Configuration): TalonSRX {
+    fun createTalon(id: Int, config: Configuration): LazyTalonSRX {
         val talon = LazyTalonSRX(id)
         talon.set(ControlMode.PercentOutput, 0.0)
 
@@ -125,11 +125,11 @@ object TalonSRXFactory {
         return talon
     }
 
-    fun createDefaultTalon(id: Int): TalonSRX {
+    fun createDefaultTalon(id: Int): LazyTalonSRX {
         return createTalon(id, defaultConfig)
     }
 
-    fun createFollowerTalon(id: Int, masterId: Int): TalonSRX {
+    fun createFollowerTalon(id: Int, masterId: Int): LazyTalonSRX {
         val talon = createTalon(id, followerConfig)
         talon.set(ControlMode.Follower, masterId.toDouble())
         return talon
