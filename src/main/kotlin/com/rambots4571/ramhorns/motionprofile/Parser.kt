@@ -32,6 +32,9 @@ object Parser {
             println("can't find file")
             DriverStation.reportWarning("can't find file", false)
             println(e.stackTrace)
+        } catch (e: NullPointerException) {
+            println("Did not set ticks per unit")
+            DriverStation.reportError("did not set encoder ticks per unit", false)
         }
         return list
     }
