@@ -1,5 +1,5 @@
 # RamHorns
-Library for Motion Profiling
+Library for advance motion control
 
 ### How to use
 
