@@ -1,47 +1,30 @@
 package com.rambots4571.ramhorns.hardware
 
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod
-import com.ctre.phoenix.motorcontrol.NeutralMode
-import com.ctre.phoenix.motorcontrol.ControlFrame
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.ParamEnum
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource
-import com.ctre.phoenix.motorcontrol.ControlMode
-import com.ctre.phoenix.motorcontrol.can.TalonSRX
+import com.ctre.phoenix.motorcontrol.*
+import com.rambots4571.ramhorns.Constants
 
-data class Configuration(val neutralMode: NeutralMode = NeutralMode.Brake,
-                         val neutralDeadband: Double = 0.04,
-                         val enableCurrentLimit: Boolean = false,
-                         val enableSoftLimit: Boolean = false,
-                         val enableLimitSwitch: Boolean = false,
-                         val forwardSoftLimit: Int = 0,
-                         val reverseSoftLimit: Int = 0,
-                         val inverted: Boolean = false,
-                         val sensorOutOfPhase: Boolean = false,
-                         val controlFramePeriodMs: Int = 5,
-                         val motionControlFramePeriodMs: Int = 100,
-                         val generalStatusFrameRateMs: Int = 100,
-                         val feedbackStatusFrameRateMs: Int = 100,
-                         val magEncoderStatusFrameRateMs: Int = 100,
-                         val analogTempVBatStatusFrameRateMs: Int = 100,
-                         val pulseWidthStatusFrameRateMs: Int = 100,
-                         val velocityMeasPeriod: VelocityMeasPeriod =
-                            VelocityMeasPeriod.Period_100Ms,
-                         val velMeasRollingAvgWindow: Int = 64,
-                         val openLoopRampRate: Double = 0.0,
-                         val closedLoopRampRate: Double = 0.0)
+data class Configuration(
+    val neutralMode: NeutralMode = NeutralMode.Brake, val neutralDeadband: Double = 0.04,
+    val enableCurrentLimit: Boolean = false, val enableSoftLimit: Boolean = false,
+    val enableLimitSwitch: Boolean = false, val forwardSoftLimit: Int = 0, val reverseSoftLimit: Int = 0,
+    val inverted: Boolean = false, val sensorOutOfPhase: Boolean = false, val controlFramePeriodMs: Int = 5,
+    val motionControlFramePeriodMs: Int = 100, val generalStatusFrameRateMs: Int = 100,
+    val feedbackStatusFrameRateMs: Int = 100, val magEncoderStatusFrameRateMs: Int = 100,
+    val analogTempVBatStatusFrameRateMs: Int = 100, val pulseWidthStatusFrameRateMs: Int = 100,
+    val velocityMeasPeriod: VelocityMeasPeriod = VelocityMeasPeriod.Period_100Ms, val velMeasRollingAvgWindow: Int = 64,
+    val openLoopRampRate: Double = 0.0, val closedLoopRampRate: Double = 0.0)
 
 object TalonSRXFactory {
     private const val kTimeoutMs = 100
     private val defaultConfig = Configuration()
-    private val followerConfig = Configuration(controlFramePeriodMs = 100,
-                                               motionControlFramePeriodMs = 1000,
-                                               generalStatusFrameRateMs = 1000,
-                                               feedbackStatusFrameRateMs = 1000,
-                                               magEncoderStatusFrameRateMs = 1000,
-                                               analogTempVBatStatusFrameRateMs = 1000,
-                                               pulseWidthStatusFrameRateMs = 1000)
+    private val followerConfig = Configuration(
+            controlFramePeriodMs = 100, motionControlFramePeriodMs = Constants.Talon.longTimeoutMs,
+            generalStatusFrameRateMs = Constants.Talon.longTimeoutMs,
+            feedbackStatusFrameRateMs = Constants.Talon.longTimeoutMs,
+            magEncoderStatusFrameRateMs = Constants.Talon.longTimeoutMs,
+            analogTempVBatStatusFrameRateMs = Constants.Talon.longTimeoutMs,
+            pulseWidthStatusFrameRateMs = Constants.Talon.longTimeoutMs)
 
     fun createTalon(id: Int, config: Configuration): LazyTalonSRX {
         val talon = LazyTalonSRX(id)
@@ -53,12 +36,10 @@ object TalonSRXFactory {
 
         talon.clearStickyFaults(kTimeoutMs)
 
-        talon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
-                                             LimitSwitchNormal.NormallyOpen,
-                                             kTimeoutMs)
-        talon.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
-                                             LimitSwitchNormal.NormallyOpen,
-                                             kTimeoutMs)
+        talon.configForwardLimitSwitchSource(
+                LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, kTimeoutMs)
+        talon.configReverseLimitSwitchSource(
+                LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, kTimeoutMs)
         talon.overrideLimitSwitchesEnable(config.enableLimitSwitch)
 
         // Turn off re-zeroing by default.
@@ -88,8 +69,8 @@ object TalonSRXFactory {
 
         talon.selectProfileSlot(0, 0)
 
-        talon.configVelocityMeasurementPeriod(config.velocityMeasPeriod,
-                                              kTimeoutMs)
+        talon.configVelocityMeasurementPeriod(
+                config.velocityMeasPeriod, kTimeoutMs)
         talon.configVelocityMeasurementWindow(
                 config.velMeasRollingAvgWindow, kTimeoutMs)
 
@@ -102,25 +83,20 @@ object TalonSRXFactory {
 
         talon.enableCurrentLimit(config.enableCurrentLimit)
 
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General,
-                                   config.generalStatusFrameRateMs,
-                                   kTimeoutMs)
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0,
-                                   config.feedbackStatusFrameRateMs,
-                                   kTimeoutMs)
+        talon.setStatusFramePeriod(
+                StatusFrameEnhanced.Status_1_General, config.generalStatusFrameRateMs, kTimeoutMs)
+        talon.setStatusFramePeriod(
+                StatusFrameEnhanced.Status_2_Feedback0, config.feedbackStatusFrameRateMs, kTimeoutMs)
 
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature,
-                                   config.magEncoderStatusFrameRateMs,
-                                   kTimeoutMs)
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_4_AinTempVbat,
-                                   config.analogTempVBatStatusFrameRateMs,
-                                   kTimeoutMs)
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_8_PulseWidth,
-                                   config.pulseWidthStatusFrameRateMs,
-                                   kTimeoutMs)
+        talon.setStatusFramePeriod(
+                StatusFrameEnhanced.Status_3_Quadrature, config.magEncoderStatusFrameRateMs, kTimeoutMs)
+        talon.setStatusFramePeriod(
+                StatusFrameEnhanced.Status_4_AinTempVbat, config.analogTempVBatStatusFrameRateMs, kTimeoutMs)
+        talon.setStatusFramePeriod(
+                StatusFrameEnhanced.Status_8_PulseWidth, config.pulseWidthStatusFrameRateMs, kTimeoutMs)
 
-        talon.setControlFramePeriod(ControlFrame.Control_3_General,
-                                    config.controlFramePeriodMs)
+        talon.setControlFramePeriod(
+                ControlFrame.Control_3_General, config.controlFramePeriodMs)
 
         return talon
     }
