@@ -8,7 +8,7 @@ import java.io.FileNotFoundException
 import java.util.*
 
 object Parser {
-    private var ticksPerUnit: Double? = null
+    var ticksPerUnit: Double? = null
 
     fun getPoints(fileName: String, dir: String = Constants.Paths.dir,
                   skipFirstLine: Boolean = false): ArrayList<TrajectoryPoint> {

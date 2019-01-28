@@ -14,7 +14,11 @@ class Profile(
     var timoutMs = Constants.Talon.timeoutMs
     var trajectoryPointPeriod = Constants.Talon.trajectoryPointPeriod
     var motionControlFramePeriod = timoutMs / 2
-
+    var ticksPerUnit: Double? = Parser.ticksPerUnit
+        set(value) {
+            Parser.ticksPerUnit = value
+        }
+    
     init {
         leftProfile = Parser.getPoints(pathName + Constants.Paths.leftSuffix)
         rightProfile = Parser.getPoints(pathName + Constants.Paths.rightSuffix)
