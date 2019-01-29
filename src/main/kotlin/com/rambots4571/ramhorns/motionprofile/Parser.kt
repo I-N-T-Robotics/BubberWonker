@@ -7,9 +7,10 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
 
-object Parser {
-    var ticksPerUnit: Double? = null
-
+class Parser(private var ticksPerUnit: Double) {
+    var positionCol = 0
+    var velocityCol = 1
+    var timeDurationCol = 2
     fun getPoints(fileName: String, dir: String = Constants.Paths.dir,
                   skipFirstLine: Boolean = false): ArrayList<TrajectoryPoint> {
         val file = File(dir + fileName)
@@ -20,21 +21,18 @@ object Parser {
             if (skipFirstLine) reader.nextLine()
             while (reader.hasNextLine()) {
                 val values = reader.nextLine().split(", ")
-                point.position = values[0].toDouble() * ticksPerUnit!!
-                point.velocity = values[1].toDouble() * ticksPerUnit!! / 10
+                point.position = values[positionCol].toDouble() * ticksPerUnit
+                point.velocity = values[velocityCol].toDouble() * ticksPerUnit / 10
                 point.headingDeg = 0.0
                 point.profileSlotSelect0 = 0
                 point.profileSlotSelect1 = 0
-                point.timeDur = values[2].toInt()
+                point.timeDur = values[timeDurationCol].toInt()
                 list.add(point)
             }
         } catch (e: FileNotFoundException) {
             println("can't find file")
             DriverStation.reportWarning("can't find file", false)
             println(e.stackTrace)
-        } catch (e: NullPointerException) {
-            println("Did not set ticks per unit")
-            DriverStation.reportError("did not set encoder ticks per unit", false)
         }
         return list
     }
