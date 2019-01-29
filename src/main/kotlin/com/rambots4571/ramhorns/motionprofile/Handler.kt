@@ -7,7 +7,7 @@ import com.rambots4571.ramhorns.Constants
 import com.rambots4571.ramhorns.hardware.LazyTalonSRX
 import edu.wpi.first.wpilibj.Notifier
 
-class Handler(
+internal class Handler(
     private val profile: Profile, private val leftTalon: LazyTalonSRX, private val rightTalon: LazyTalonSRX) {
     private val talons = arrayOf(leftTalon, rightTalon)
     private val executorThread: Notifier
@@ -97,8 +97,8 @@ class Handler(
         if (pointIndex == 0) {
             talons.forEach {
                 it.clearMotionProfileTrajectories()
-                it.configMotionProfileTrajectoryPeriod(profile.trajectoryPointPeriod, profile.timoutMs)
-                it.clearMotionProfileHasUnderrun(profile.timoutMs)
+                it.configMotionProfileTrajectoryPeriod(profile.trajectoryPointPeriod, profile.timeoutMs)
+                it.clearMotionProfileHasUnderrun(profile.timeoutMs)
             }
         }
         updateMPStatuses()
