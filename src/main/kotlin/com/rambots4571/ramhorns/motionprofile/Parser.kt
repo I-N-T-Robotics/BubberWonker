@@ -1,7 +1,6 @@
 package com.rambots4571.ramhorns.motionprofile
 
 import com.ctre.phoenix.motion.TrajectoryPoint
-import com.rambots4571.ramhorns.Constants
 import edu.wpi.first.wpilibj.DriverStation
 import java.io.File
 import java.io.FileNotFoundException
@@ -11,9 +10,8 @@ class Parser(private var ticksPerUnit: Double) {
     var positionCol = 0
     var velocityCol = 1
     var timeDurationCol = 2
-    fun getPoints(fileName: String, dir: String = Constants.Paths.dir,
-                  skipFirstLine: Boolean = false): ArrayList<TrajectoryPoint> {
-        val file = File(dir + fileName)
+    fun getPoints(filePath: String, skipFirstLine: Boolean = false): ArrayList<TrajectoryPoint> {
+        val file = File(filePath)
         val list = ArrayList<TrajectoryPoint>()
         val point = TrajectoryPoint()
         try {
