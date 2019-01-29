@@ -1,4 +1,4 @@
-# RamHorns
+# Rampage
 Library for advance motion control
 
 ### How to use
