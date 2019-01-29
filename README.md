@@ -18,6 +18,6 @@ Add the dependency
 
 ```gradle
 dependencies {
-  implementation 'com.github.frc4571:RamHorns:-SNAPSHOT'
+  implementation 'com.github.frc4571:rampage:-SNAPSHOT'
 }
 ```
