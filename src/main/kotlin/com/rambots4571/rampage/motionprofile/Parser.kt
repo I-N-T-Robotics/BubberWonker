@@ -1,4 +1,4 @@
-package com.rambots4571.ramhorns.motionprofile
+package com.rambots4571.rampage.motionprofile
 
 import com.ctre.phoenix.motion.TrajectoryPoint
 import edu.wpi.first.wpilibj.DriverStation

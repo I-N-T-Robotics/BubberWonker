@@ -1,4 +1,4 @@
-package com.rambots4571.ramhorns
+package com.rambots4571.rampage
 
 object Constants {
     object Talon {

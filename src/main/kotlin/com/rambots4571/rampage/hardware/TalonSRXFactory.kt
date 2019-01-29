@@ -1,8 +1,8 @@
-package com.rambots4571.ramhorns.hardware
+package com.rambots4571.rampage.hardware
 
 import com.ctre.phoenix.ParamEnum
 import com.ctre.phoenix.motorcontrol.*
-import com.rambots4571.ramhorns.Constants
+import com.rambots4571.rampage.Constants
 
 data class Configuration(
     val neutralMode: NeutralMode = NeutralMode.Brake, val neutralDeadband: Double = 0.04,
