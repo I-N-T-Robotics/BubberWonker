@@ -27,9 +27,3 @@ class LazyTalonSRX(port: Int) : TalonSRX(port) {
         config_kF(kPIDSlotIdx, kF, timeoutMs)
     }
 }
-
-fun checkError(errorCode: ErrorCode, message: String) {
-    if (errorCode != ErrorCode.OK) {
-        DriverStation.reportError(message + errorCode, false)
-    }
-}
