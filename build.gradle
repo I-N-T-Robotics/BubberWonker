@@ -31,13 +31,13 @@ subprojects { subproject ->
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     }
 
-    sourceCompatibility = 1.8
+    sourceCompatibility = java_version
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = java_version
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = java_version
     }
 }
 
