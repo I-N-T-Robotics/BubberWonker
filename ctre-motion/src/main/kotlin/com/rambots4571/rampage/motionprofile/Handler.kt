@@ -135,7 +135,7 @@ internal class Handler(
         updateMPStatuses()
     }
 
-    fun updateMPStatuses() {
+    private fun updateMPStatuses() {
         for (i in 0 until talons.size) {
             talons[i].getMotionProfileStatus(statuses[i])
         }

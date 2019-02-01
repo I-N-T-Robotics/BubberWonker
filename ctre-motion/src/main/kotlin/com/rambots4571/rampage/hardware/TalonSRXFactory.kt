@@ -1,8 +1,10 @@
 package com.rambots4571.rampage.hardware
 
+import com.ctre.phoenix.ErrorCode
 import com.ctre.phoenix.ParamEnum
 import com.ctre.phoenix.motorcontrol.*
 import com.rambots4571.rampage.Constants
+import edu.wpi.first.wpilibj.DriverStation
 
 data class Configuration(
     val neutralMode: NeutralMode = NeutralMode.Brake, val neutralDeadband: Double = 0.04,
@@ -109,5 +111,11 @@ object TalonSRXFactory {
         val talon = createTalon(id, followerConfig)
         talon.set(ControlMode.Follower, masterId.toDouble())
         return talon
+    }
+}
+
+fun checkError(errorCode: ErrorCode, message: String) {
+    if (errorCode != ErrorCode.OK) {
+        DriverStation.reportError(message + errorCode, false)
     }
 }

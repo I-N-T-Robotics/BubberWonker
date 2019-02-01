@@ -1,32 +1,43 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11' apply false
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url "http://first.wpi.edu/FRC/roborio/maven/release/"
+allprojects {
+    apply plugin: 'idea'
+}
+
+subprojects { subproject ->
+    apply plugin: 'kotlin'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+
+    group 'com.rambots4571'
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "http://first.wpi.edu/FRC/roborio/maven/release/"
+        }
+        maven  {
+            url "http://devsite.ctr-electronics.com/maven/release/"
+        }
     }
-    maven  {
-        url "http://devsite.ctr-electronics.com/maven/release/"
+
+    jar {
+        destinationDir = file("$rootDir/build/libs")
     }
-}
 
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation "edu.wpi.first.wpilibj:wpilibj-java:$wpilib_version"
-    implementation "com.ctre.phoenix:api-java:$ctre_version"
-}
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = java_version
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     }
-}
 
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = java_version
+    sourceCompatibility = 1.8
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
     }
 }
 

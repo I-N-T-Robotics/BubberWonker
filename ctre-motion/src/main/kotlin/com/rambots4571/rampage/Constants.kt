@@ -9,10 +9,4 @@ object Constants {
         const val MAX_BTM_BUFFER_COUNT = 128
         const val MAX_TOP_BUFFER_COUNT = 512
     }
-
-    object Paths {
-        const val dir = "home/lvuser/deploy/paths"
-        const val leftSuffix = "_left.csv"
-        const val rightSuffix = "_right.csv"
-    }
 }
