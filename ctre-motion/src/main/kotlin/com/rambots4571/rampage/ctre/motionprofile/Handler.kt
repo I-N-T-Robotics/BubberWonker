@@ -1,10 +1,10 @@
-package com.rambots4571.rampage.motionprofile
+package com.rambots4571.rampage.ctre.motionprofile
 
 import com.ctre.phoenix.motion.MotionProfileStatus
 import com.ctre.phoenix.motion.SetValueMotionProfile
 import com.ctre.phoenix.motorcontrol.ControlMode
-import com.rambots4571.rampage.Constants
-import com.rambots4571.rampage.hardware.LazyTalonSRX
+import com.rambots4571.rampage.ctre.Constants
+import com.rambots4571.rampage.ctre.hardware.LazyTalonSRX
 import edu.wpi.first.wpilibj.Notifier
 
 internal class Handler(

@@ -1,8 +1,8 @@
-package com.rambots4571.rampage.hardware
+package com.rambots4571.rampage.ctre.hardware
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
-import com.rambots4571.rampage.Constants
+import com.rambots4571.rampage.ctre.Constants
 
 class LazyTalonSRX(port: Int) : TalonSRX(port) {
     protected var lastSet = Double.NaN
