@@ -11,7 +11,7 @@ subprojects { subproject ->
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
 
-    group 'com.rambots4571'
+    group 'com.rambots4571.rampage'
 
     repositories {
         mavenCentral()
