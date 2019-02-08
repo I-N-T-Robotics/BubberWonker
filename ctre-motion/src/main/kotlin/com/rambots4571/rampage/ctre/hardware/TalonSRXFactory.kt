@@ -9,7 +9,7 @@ data class Configuration(
     val enableCurrentLimit: Boolean = false, val enableSoftLimit: Boolean = false,
     val enableLimitSwitch: Boolean = false, val forwardSoftLimit: Int = 0, val reverseSoftLimit: Int = 0,
     val inverted: Boolean = false, val sensorOutOfPhase: Boolean = false,
-    val controlFramePeriodMs: Int = Constants.Talon.timeoutMs / 2,
+    val controlFramePeriodMs: Int = Constants.Talon.timeoutMs,
     val motionControlFramePeriodMs: Int = Constants.Talon.timeoutMs,
     val generalStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
     val feedbackStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
@@ -20,7 +20,7 @@ data class Configuration(
     val openLoopRampRate: Double = 0.0, val closedLoopRampRate: Double = 0.0)
 
 object TalonSRXFactory {
-    private const val kTimeoutMs = 100
+    private const val kTimeoutMs = Constants.Talon.timeoutMs
     private val defaultConfig = Configuration()
     private val followerConfig = Configuration(
             controlFramePeriodMs = 100,
@@ -38,6 +38,8 @@ object TalonSRXFactory {
         talon.changeMotionControlFramePeriod(config.motionControlFramePeriodMs)
         talon.clearMotionProfileHasUnderrun(kTimeoutMs)
         talon.clearMotionProfileTrajectories()
+
+        talon.configMotionProfileTrajectoryPeriod(10, kTimeoutMs);
 
         talon.clearStickyFaults(kTimeoutMs)
 
@@ -125,6 +127,9 @@ object TalonSRXFactory {
 
         talon.setControlFramePeriod(
                 ControlFrame.Control_3_General, config.controlFramePeriodMs)
+
+        talon.setStatusFramePeriod(
+                StatusFrameEnhanced.Status_10_MotionMagic, kTimeoutMs, kTimeoutMs)
 
         return talon
     }
