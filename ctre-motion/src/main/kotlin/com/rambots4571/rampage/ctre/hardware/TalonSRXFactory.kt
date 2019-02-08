@@ -8,10 +8,14 @@ data class Configuration(
     val neutralMode: NeutralMode = NeutralMode.Brake, val neutralDeadband: Double = 0.04,
     val enableCurrentLimit: Boolean = false, val enableSoftLimit: Boolean = false,
     val enableLimitSwitch: Boolean = false, val forwardSoftLimit: Int = 0, val reverseSoftLimit: Int = 0,
-    val inverted: Boolean = false, val sensorOutOfPhase: Boolean = false, val controlFramePeriodMs: Int = 5,
-    val motionControlFramePeriodMs: Int = 100, val generalStatusFrameRateMs: Int = 100,
-    val feedbackStatusFrameRateMs: Int = 100, val magEncoderStatusFrameRateMs: Int = 100,
-    val analogTempVBatStatusFrameRateMs: Int = 100, val pulseWidthStatusFrameRateMs: Int = 100,
+    val inverted: Boolean = false, val sensorOutOfPhase: Boolean = false,
+    val controlFramePeriodMs: Int = Constants.Talon.timeoutMs / 2,
+    val motionControlFramePeriodMs: Int = Constants.Talon.timeoutMs,
+    val generalStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
+    val feedbackStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
+    val magEncoderStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
+    val analogTempVBatStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
+    val pulseWidthStatusFrameRateMs: Int = Constants.Talon.timeoutMs,
     val velocityMeasPeriod: VelocityMeasPeriod = VelocityMeasPeriod.Period_100Ms, val velMeasRollingAvgWindow: Int = 64,
     val openLoopRampRate: Double = 0.0, val closedLoopRampRate: Double = 0.0)
 
@@ -55,23 +59,28 @@ object TalonSRXFactory {
 
         talon.configNominalOutputForward(0.0, kTimeoutMs)
         talon.configNominalOutputReverse(0.0, kTimeoutMs)
-        talon.configNeutralDeadband(config.neutralDeadband,
-                                    kTimeoutMs)
+        talon.configNeutralDeadband(
+                config.neutralDeadband,
+                kTimeoutMs)
 
         talon.configPeakOutputForward(1.0, kTimeoutMs)
         talon.configPeakOutputReverse(-1.0, kTimeoutMs)
 
         talon.setNeutralMode(config.neutralMode)
 
-        talon.configForwardSoftLimitThreshold(config.forwardSoftLimit,
-                                              kTimeoutMs)
-        talon.configForwardSoftLimitEnable(config.enableSoftLimit,
-                                           kTimeoutMs)
+        talon.configForwardSoftLimitThreshold(
+                config.forwardSoftLimit,
+                kTimeoutMs)
+        talon.configForwardSoftLimitEnable(
+                config.enableSoftLimit,
+                kTimeoutMs)
 
-        talon.configReverseSoftLimitThreshold(config.reverseSoftLimit,
-                                              kTimeoutMs)
-        talon.configReverseSoftLimitEnable(config.enableSoftLimit,
-                                           kTimeoutMs)
+        talon.configReverseSoftLimitThreshold(
+                config.reverseSoftLimit,
+                kTimeoutMs)
+        talon.configReverseSoftLimitEnable(
+                config.enableSoftLimit,
+                kTimeoutMs)
         talon.overrideSoftLimitsEnable(config.enableSoftLimit)
 
         talon.inverted = config.inverted
@@ -84,10 +93,12 @@ object TalonSRXFactory {
         talon.configVelocityMeasurementWindow(
                 config.velMeasRollingAvgWindow, kTimeoutMs)
 
-        talon.configOpenloopRamp(config.openLoopRampRate,
-                                 kTimeoutMs)
-        talon.configClosedloopRamp(config.closedLoopRampRate,
-                                   kTimeoutMs)
+        talon.configOpenloopRamp(
+                config.openLoopRampRate,
+                kTimeoutMs)
+        talon.configClosedloopRamp(
+                config.closedLoopRampRate,
+                kTimeoutMs)
 
         talon.configVoltageCompSaturation(0.0, kTimeoutMs)
         talon.configVoltageMeasurementFilter(32, kTimeoutMs)
