@@ -31,6 +31,9 @@ class Parser(private var ticksPerUnit: Double) {
             println("can't find file")
             DriverStation.reportWarning("can't find file", false)
             println(e.stackTrace)
+        } catch (e: Exception) {
+            DriverStation.reportError("Something went wrong while parsing path!", true)
+            println(e.stackTrace)
         }
         return list
     }
