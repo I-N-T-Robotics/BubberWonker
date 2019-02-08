@@ -6,12 +6,14 @@ allprojects {
     apply plugin: 'idea'
 }
 
-subprojects { subproject ->
+subprojects {
     apply plugin: 'kotlin'
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
 
     group 'com.rambots4571.rampage'
+
+    buildDir = file("$rootDir/build/${project.name}")
 
     repositories {
         mavenCentral()
@@ -36,8 +38,19 @@ subprojects { subproject ->
     compileKotlin {
         kotlinOptions.jvmTarget = java_version
     }
+
     compileTestKotlin {
         kotlinOptions.jvmTarget = java_version
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allSource
+        classifier = 'sources'
+        destinationDir = file("$rootDir/build/libs")
+    }
+
+    artifacts {
+        archives sourcesJar
     }
 }
 
