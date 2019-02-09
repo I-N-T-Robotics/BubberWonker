@@ -3,12 +3,12 @@ package com.rambots4571.rampage.ctre.motionprofile
 import com.ctre.phoenix.motion.MotionProfileStatus
 import com.ctre.phoenix.motion.SetValueMotionProfile
 import com.ctre.phoenix.motorcontrol.ControlMode
+import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import com.rambots4571.rampage.ctre.Constants
-import com.rambots4571.rampage.ctre.hardware.LazyTalonSRX
 import edu.wpi.first.wpilibj.Notifier
 
 internal class Handler(
-    private val profile: Profile, private val leftTalon: LazyTalonSRX, private val rightTalon: LazyTalonSRX) {
+    private val profile: Profile, private val leftTalon: TalonSRX, private val rightTalon: TalonSRX) {
     private val talons = arrayOf(leftTalon, rightTalon)
     private val executorThread: Notifier
     private val bufferThread: Notifier
