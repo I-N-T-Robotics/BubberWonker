@@ -23,7 +23,7 @@ object TalonSRXFactory {
     private const val kTimeoutMs = Constants.Talon.timeoutMs
     private val defaultConfig = Configuration()
     private val followerConfig = Configuration(
-            controlFramePeriodMs = 100,
+            controlFramePeriodMs = 10,
             motionControlFramePeriodMs = Constants.Talon.longTimeoutMs,
             generalStatusFrameRateMs = Constants.Talon.longTimeoutMs,
             feedbackStatusFrameRateMs = Constants.Talon.longTimeoutMs,
