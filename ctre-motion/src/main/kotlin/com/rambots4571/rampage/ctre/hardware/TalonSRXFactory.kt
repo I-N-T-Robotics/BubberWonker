@@ -2,6 +2,7 @@ package com.rambots4571.rampage.ctre.hardware
 
 import com.ctre.phoenix.ParamEnum
 import com.ctre.phoenix.motorcontrol.*
+import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import com.rambots4571.rampage.ctre.Constants
 
 data class Configuration(
@@ -23,23 +24,20 @@ object TalonSRXFactory {
     private const val kTimeoutMs = Constants.Talon.timeoutMs
     private val defaultConfig = Configuration()
     private val followerConfig = Configuration(
-            controlFramePeriodMs = 10,
-            motionControlFramePeriodMs = Constants.Talon.longTimeoutMs,
-            generalStatusFrameRateMs = Constants.Talon.longTimeoutMs,
-            feedbackStatusFrameRateMs = Constants.Talon.longTimeoutMs,
-            magEncoderStatusFrameRateMs = Constants.Talon.longTimeoutMs,
-            analogTempVBatStatusFrameRateMs = Constants.Talon.longTimeoutMs,
-            pulseWidthStatusFrameRateMs = Constants.Talon.longTimeoutMs)
+            motionControlFramePeriodMs = Constants.Talon.timeoutMs,
+            generalStatusFrameRateMs = Constants.Talon.timeoutMs,
+            feedbackStatusFrameRateMs = Constants.Talon.timeoutMs,
+            magEncoderStatusFrameRateMs = Constants.Talon.timeoutMs,
+            analogTempVBatStatusFrameRateMs = Constants.Talon.timeoutMs,
+            pulseWidthStatusFrameRateMs = Constants.Talon.timeoutMs)
 
-    fun createTalon(id: Int, config: Configuration): LazyTalonSRX {
+    fun createTalon(id: Int, config: Configuration): TalonSRX {
         val talon = LazyTalonSRX(id)
         talon.set(ControlMode.PercentOutput, 0.0)
 
         talon.changeMotionControlFramePeriod(config.motionControlFramePeriodMs)
         talon.clearMotionProfileHasUnderrun(kTimeoutMs)
         talon.clearMotionProfileTrajectories()
-
-        talon.configMotionProfileTrajectoryPeriod(10, kTimeoutMs);
 
         talon.clearStickyFaults(kTimeoutMs)
 
@@ -61,9 +59,7 @@ object TalonSRXFactory {
 
         talon.configNominalOutputForward(0.0, kTimeoutMs)
         talon.configNominalOutputReverse(0.0, kTimeoutMs)
-        talon.configNeutralDeadband(
-                config.neutralDeadband,
-                kTimeoutMs)
+        talon.configNeutralDeadband(config.neutralDeadband, kTimeoutMs)
 
         talon.configPeakOutputForward(1.0, kTimeoutMs)
         talon.configPeakOutputReverse(-1.0, kTimeoutMs)
@@ -129,17 +125,17 @@ object TalonSRXFactory {
                 ControlFrame.Control_3_General, config.controlFramePeriodMs)
 
         talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_10_MotionMagic, kTimeoutMs, kTimeoutMs)
+                StatusFrameEnhanced.Status_10_MotionMagic, config.motionControlFramePeriodMs, kTimeoutMs)
 
         return talon
     }
 
-    fun createDefaultTalon(id: Int): LazyTalonSRX {
+    fun createDefaultTalon(id: Int): TalonSRX {
         return createTalon(
                 id, defaultConfig)
     }
 
-    fun createFollowerTalon(id: Int, masterId: Int): LazyTalonSRX {
+    fun createFollowerTalon(id: Int, masterId: Int): TalonSRX {
         val talon = createTalon(
                 id, followerConfig)
         talon.set(ControlMode.Follower, masterId.toDouble())
