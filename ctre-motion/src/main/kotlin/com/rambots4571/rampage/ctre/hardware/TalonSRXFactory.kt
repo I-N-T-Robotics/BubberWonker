@@ -23,13 +23,6 @@ data class Configuration(
 object TalonSRXFactory {
     private const val kTimeoutMs = Constants.Talon.timeoutMs
     private val defaultConfig = Configuration()
-    private val followerConfig = Configuration(
-            motionControlFramePeriodMs = Constants.Talon.timeoutMs,
-            generalStatusFrameRateMs = Constants.Talon.timeoutMs,
-            feedbackStatusFrameRateMs = Constants.Talon.timeoutMs,
-            magEncoderStatusFrameRateMs = Constants.Talon.timeoutMs,
-            analogTempVBatStatusFrameRateMs = Constants.Talon.timeoutMs,
-            pulseWidthStatusFrameRateMs = Constants.Talon.timeoutMs)
 
     fun createTalon(id: Int, config: Configuration): TalonSRX {
         val talon = LazyTalonSRX(id)
@@ -133,12 +126,5 @@ object TalonSRXFactory {
     fun createDefaultTalon(id: Int): TalonSRX {
         return createTalon(
                 id, defaultConfig)
-    }
-
-    fun createFollowerTalon(id: Int, masterId: Int): TalonSRX {
-        val talon = createTalon(
-                id, followerConfig)
-        talon.set(ControlMode.Follower, masterId.toDouble())
-        return talon
     }
 }
