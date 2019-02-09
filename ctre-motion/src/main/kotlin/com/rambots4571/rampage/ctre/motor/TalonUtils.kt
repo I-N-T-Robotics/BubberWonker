@@ -1,4 +1,4 @@
-package com.rambots4571.rampage.ctre.hardware
+package com.rambots4571.rampage.ctre.motor
 
 import com.ctre.phoenix.ErrorCode
 import edu.wpi.first.wpilibj.DriverStation

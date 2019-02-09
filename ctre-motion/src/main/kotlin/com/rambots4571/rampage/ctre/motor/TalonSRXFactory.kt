@@ -1,4 +1,4 @@
-package com.rambots4571.rampage.ctre.hardware
+package com.rambots4571.rampage.ctre.motor
 
 import com.ctre.phoenix.ParamEnum
 import com.ctre.phoenix.motorcontrol.*
@@ -25,7 +25,7 @@ object TalonSRXFactory {
     private val defaultConfig = Configuration()
 
     fun createTalon(id: Int, config: Configuration): TalonSRX {
-        val talon = LazyTalonSRX(id)
+        val talon = TalonSRX(id)
         talon.set(ControlMode.PercentOutput, 0.0)
 
         talon.changeMotionControlFramePeriod(config.motionControlFramePeriodMs)
