@@ -1,13 +1,13 @@
 package com.rambots4571.rampage.ctre.motionprofile
 
 import com.ctre.phoenix.motion.TrajectoryPoint
+import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import com.rambots4571.rampage.ctre.Constants
-import com.rambots4571.rampage.ctre.hardware.LazyTalonSRX
 import edu.wpi.first.wpilibj.DriverStation
 
 class Profile(
-    val leftProfile: ArrayList<TrajectoryPoint>, val rightProfile: ArrayList<TrajectoryPoint>, leftTalon: LazyTalonSRX,
-    rightTalon: LazyTalonSRX) {
+    val leftProfile: ArrayList<TrajectoryPoint>, val rightProfile: ArrayList<TrajectoryPoint>, leftTalon: TalonSRX,
+    rightTalon: TalonSRX) {
     val length: Int = leftProfile.size
     private val handler: Handler =
         Handler(this, leftTalon, rightTalon)
