@@ -24,6 +24,7 @@ class DriveStick(port: Int) : Joystick(port) {
         get() = getRawAxis(0)
 
     val yAxis: Double
+        // inverted because ot returns negative going forward
         get() = -getRawAxis(1)
 
     val zAxis: Double
