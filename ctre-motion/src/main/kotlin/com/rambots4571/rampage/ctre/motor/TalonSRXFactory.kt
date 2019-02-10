@@ -20,111 +20,108 @@ data class Configuration(
     val velocityMeasPeriod: VelocityMeasPeriod = VelocityMeasPeriod.Period_100Ms, val velMeasRollingAvgWindow: Int = 64,
     val openLoopRampRate: Double = 0.0, val closedLoopRampRate: Double = 0.0)
 
-object TalonSRXFactory {
-    private const val kTimeoutMs = Constants.Talon.timeoutMs
-    private val defaultConfig = Configuration()
+private const val kTimeoutMs = Constants.Talon.timeoutMs
+private val defaultConfig = Configuration()
 
-    fun createTalon(id: Int, config: Configuration): TalonSRX {
-        val talon = TalonSRX(id)
-        talon.set(ControlMode.PercentOutput, 0.0)
+fun createTalon(id: Int, config: Configuration): TalonSRX {
+    val talon = TalonSRX(id)
+    talon.set(ControlMode.PercentOutput, 0.0)
 
-        talon.changeMotionControlFramePeriod(config.motionControlFramePeriodMs)
-        talon.clearMotionProfileHasUnderrun(kTimeoutMs)
-        talon.clearMotionProfileTrajectories()
+    talon.changeMotionControlFramePeriod(config.motionControlFramePeriodMs)
+    talon.clearMotionProfileHasUnderrun(kTimeoutMs)
+    talon.clearMotionProfileTrajectories()
 
-        talon.clearStickyFaults(kTimeoutMs)
+    talon.clearStickyFaults(kTimeoutMs)
 
-        talon.configForwardLimitSwitchSource(
-                LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
-                kTimeoutMs)
-        talon.configReverseLimitSwitchSource(
-                LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
-                kTimeoutMs)
-        talon.overrideLimitSwitchesEnable(config.enableLimitSwitch)
+    talon.configForwardLimitSwitchSource(
+            LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+            kTimeoutMs)
+    talon.configReverseLimitSwitchSource(
+            LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+            kTimeoutMs)
+    talon.overrideLimitSwitchesEnable(config.enableLimitSwitch)
 
-        // Turn off re-zeroing by default.
-        talon.configSetParameter(
-                ParamEnum.eClearPositionOnLimitF, 0.0, 0, 0,
-                kTimeoutMs)
-        talon.configSetParameter(
-                ParamEnum.eClearPositionOnLimitR, 0.0, 0, 0,
-                kTimeoutMs)
+    // Turn off re-zeroing by default.
+    talon.configSetParameter(
+            ParamEnum.eClearPositionOnLimitF, 0.0, 0, 0,
+            kTimeoutMs)
+    talon.configSetParameter(
+            ParamEnum.eClearPositionOnLimitR, 0.0, 0, 0,
+            kTimeoutMs)
 
-        talon.configNominalOutputForward(0.0, kTimeoutMs)
-        talon.configNominalOutputReverse(0.0, kTimeoutMs)
-        talon.configNeutralDeadband(config.neutralDeadband, kTimeoutMs)
+    talon.configNominalOutputForward(0.0, kTimeoutMs)
+    talon.configNominalOutputReverse(0.0, kTimeoutMs)
+    talon.configNeutralDeadband(config.neutralDeadband, kTimeoutMs)
 
-        talon.configPeakOutputForward(1.0, kTimeoutMs)
-        talon.configPeakOutputReverse(-1.0, kTimeoutMs)
+    talon.configPeakOutputForward(1.0, kTimeoutMs)
+    talon.configPeakOutputReverse(-1.0, kTimeoutMs)
 
-        talon.setNeutralMode(config.neutralMode)
+    talon.setNeutralMode(config.neutralMode)
 
-        talon.configForwardSoftLimitThreshold(
-                config.forwardSoftLimit,
-                kTimeoutMs)
-        talon.configForwardSoftLimitEnable(
-                config.enableSoftLimit,
-                kTimeoutMs)
+    talon.configForwardSoftLimitThreshold(
+            config.forwardSoftLimit,
+            kTimeoutMs)
+    talon.configForwardSoftLimitEnable(
+            config.enableSoftLimit,
+            kTimeoutMs)
 
-        talon.configReverseSoftLimitThreshold(
-                config.reverseSoftLimit,
-                kTimeoutMs)
-        talon.configReverseSoftLimitEnable(
-                config.enableSoftLimit,
-                kTimeoutMs)
-        talon.overrideSoftLimitsEnable(config.enableSoftLimit)
+    talon.configReverseSoftLimitThreshold(
+            config.reverseSoftLimit,
+            kTimeoutMs)
+    talon.configReverseSoftLimitEnable(
+            config.enableSoftLimit,
+            kTimeoutMs)
+    talon.overrideSoftLimitsEnable(config.enableSoftLimit)
 
-        talon.inverted = config.inverted
-        talon.setSensorPhase(config.sensorOutOfPhase)
+    talon.inverted = config.inverted
+    talon.setSensorPhase(config.sensorOutOfPhase)
 
-        talon.selectProfileSlot(0, 0)
+    talon.selectProfileSlot(0, 0)
 
-        talon.configVelocityMeasurementPeriod(
-                config.velocityMeasPeriod, kTimeoutMs)
-        talon.configVelocityMeasurementWindow(
-                config.velMeasRollingAvgWindow, kTimeoutMs)
+    talon.configVelocityMeasurementPeriod(
+            config.velocityMeasPeriod, kTimeoutMs)
+    talon.configVelocityMeasurementWindow(
+            config.velMeasRollingAvgWindow, kTimeoutMs)
 
-        talon.configOpenloopRamp(
-                config.openLoopRampRate,
-                kTimeoutMs)
-        talon.configClosedloopRamp(
-                config.closedLoopRampRate,
-                kTimeoutMs)
+    talon.configOpenloopRamp(
+            config.openLoopRampRate,
+            kTimeoutMs)
+    talon.configClosedloopRamp(
+            config.closedLoopRampRate,
+            kTimeoutMs)
 
-        talon.configVoltageCompSaturation(0.0, kTimeoutMs)
-        talon.configVoltageMeasurementFilter(32, kTimeoutMs)
-        talon.enableVoltageCompensation(false)
+    talon.configVoltageCompSaturation(0.0, kTimeoutMs)
+    talon.configVoltageMeasurementFilter(32, kTimeoutMs)
+    talon.enableVoltageCompensation(false)
 
-        talon.enableCurrentLimit(config.enableCurrentLimit)
+    talon.enableCurrentLimit(config.enableCurrentLimit)
 
-        talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_1_General, config.generalStatusFrameRateMs,
-                kTimeoutMs)
-        talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_2_Feedback0, config.feedbackStatusFrameRateMs,
-                kTimeoutMs)
+    talon.setStatusFramePeriod(
+            StatusFrameEnhanced.Status_1_General, config.generalStatusFrameRateMs,
+            kTimeoutMs)
+    talon.setStatusFramePeriod(
+            StatusFrameEnhanced.Status_2_Feedback0, config.feedbackStatusFrameRateMs,
+            kTimeoutMs)
 
-        talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_3_Quadrature, config.magEncoderStatusFrameRateMs,
-                kTimeoutMs)
-        talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_4_AinTempVbat, config.analogTempVBatStatusFrameRateMs,
-                kTimeoutMs)
-        talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_8_PulseWidth, config.pulseWidthStatusFrameRateMs,
-                kTimeoutMs)
+    talon.setStatusFramePeriod(
+            StatusFrameEnhanced.Status_3_Quadrature, config.magEncoderStatusFrameRateMs,
+            kTimeoutMs)
+    talon.setStatusFramePeriod(
+            StatusFrameEnhanced.Status_4_AinTempVbat, config.analogTempVBatStatusFrameRateMs,
+            kTimeoutMs)
+    talon.setStatusFramePeriod(
+            StatusFrameEnhanced.Status_8_PulseWidth, config.pulseWidthStatusFrameRateMs,
+            kTimeoutMs)
 
-        talon.setControlFramePeriod(
-                ControlFrame.Control_3_General, config.controlFramePeriodMs)
+    talon.setControlFramePeriod(
+            ControlFrame.Control_3_General, config.controlFramePeriodMs)
 
-        talon.setStatusFramePeriod(
-                StatusFrameEnhanced.Status_10_MotionMagic, config.motionControlFramePeriodMs, kTimeoutMs)
+    talon.setStatusFramePeriod(
+            StatusFrameEnhanced.Status_10_MotionMagic, config.motionControlFramePeriodMs, kTimeoutMs)
 
-        return talon
-    }
+    return talon
+}
 
-    fun createDefaultTalon(id: Int): TalonSRX {
-        return createTalon(
-                id, defaultConfig)
-    }
+fun createDefaultTalon(id: Int): TalonSRX {
+    return createTalon(id, defaultConfig)
 }
