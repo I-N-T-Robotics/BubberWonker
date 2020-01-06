@@ -65,17 +65,28 @@ jar {
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
     classifier = 'sources'
-    destinationDir = file("$rootDir/build/libs")
 }
 
 artifacts {
     archives sourcesJar
 }
 
+publishing {
+    publications {
+        rampage(MavenPublication) {
+            from components.kotlin
+            artifact sourcesJar
+            groupId "com.rambots4571"
+            artifactId "rampage"
+            version this.version
+        }
+    }
+}
+
 bintray {
     user = props.getProperty("user")
     key = props.getProperty("key")
-    publications = ['rampage']
+    publications  = ['rampage']
     pkg {
         repo = "rampage"
         name = "rampage"
@@ -86,42 +97,6 @@ bintray {
             name = this.version
         }
     }
-}
-
-publishing {
-    publications {
-        Rampage(MavenPublication) {
-            from components.java
-            groupId "com.rambots4571"
-            artifactId "rampage"
-            artifact sourcesJar
-            version this.version
-        }
-    }
-
-    publishing {
-        repositories {
-            maven {
-                name = "rampage"
-                url = uri("https://maven.pkg.github.com/rambots/rampage")
-                credentials {
-                    username = githubUser
-                    password = githubToken
-                }
-            }
-        }
-        publications {
-            gpr(MavenPublication) {
-                from(components.kotlin)
-                artifact sourcesJar
-            }
-        }
-    }
-}
-
-subprojects {
-    group 'com.rambots4571.rampage'
-    buildDir = file("$rootDir/build/${project.name}")
 }
 
 wrapper {
