@@ -3,21 +3,20 @@ Library for advance motion control
 
 ### How to use
 
-Add it in your root build.gradle at the end of repositories:
+Add it in your build.gradle in repositories:
 
 ```gradle
-allprojects {
   repositories {
-    maven { 
-      url 'https://jitpack.io'
+    maven {
+      url "https://dl.bintray.com/rambots/rampage"
     }
   }
-}
 ```
+
 Add the dependency
 
 ```gradle
 dependencies {
-  implementation 'com.github.frc4571:rampage:-SNAPSHOT'
+  implementation 'com.rambots4571:rampage:2020.+'
 }
 ```
