@@ -3,12 +3,14 @@ package com.rambots4571.rampage.ctre.motionprofile
 import com.ctre.phoenix.motion.MotionProfileStatus
 import com.ctre.phoenix.motion.SetValueMotionProfile
 import com.ctre.phoenix.motorcontrol.ControlMode
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import com.rambots4571.rampage.ctre.Constants
 import edu.wpi.first.wpilibj.Notifier
 
 internal class Handler(
-    private val profile: Profile, private val leftTalon: TalonSRX, private val rightTalon: TalonSRX) {
+    private val profile: Profile, private val leftTalon: TalonSRX,
+    private val rightTalon: TalonSRX) {
     private val talons = arrayOf(leftTalon, rightTalon)
     private val executorThread: Notifier
     private val bufferThread: Notifier
@@ -22,10 +24,18 @@ internal class Handler(
         private set
 
     init {
-        executionState = ExecutionState.WAITING
+        executionState =
+            ExecutionState.WAITING
         bufferThread = Notifier(PeriodicBufferProcessor())
         bufferThread.startPeriodic(profile.motionControlFramePeriod * 1000.0)
-        talons.forEach { it.changeMotionControlFramePeriod(profile.motionControlFramePeriod) }
+        talons.forEach {
+            it.changeMotionControlFramePeriod(
+                    profile.motionControlFramePeriod)
+            it.setStatusFramePeriod(
+                    StatusFrameEnhanced.Status_10_MotionMagic,
+                    Constants.Talon.trajectoryPointPeriod,
+                    Constants.Talon.timeoutMs)
+        }
         executorThread = Notifier(PeriodicExecutor())
     }
 
@@ -35,7 +45,8 @@ internal class Handler(
 
     fun reset() {
         talons.forEach { it.clearMotionProfileTrajectories() }
-        executionState = ExecutionState.WAITING
+        executionState =
+            ExecutionState.WAITING
         started = false
     }
 
@@ -66,17 +77,19 @@ internal class Handler(
                 if (started) {
                     started = false
                     setMode(SetValueMotionProfile.Disable)
-                    executionState = ExecutionState.STARTED
+                    executionState =
+                        ExecutionState.STARTED
                 }
             ExecutionState.STARTED -> {
                 for (status in statuses) {
-                    if (status.btmBufferCnt <= Constants.Talon.MIN_POINTS_IN_TALON) {
+                    if (status.btmBufferCnt <=
+                            Constants.Talon.MIN_POINTS_IN_TALON)
                         readyToProgress = false
-                    }
                 }
                 if (readyToProgress) {
                     setMode(SetValueMotionProfile.Enable)
-                    executionState = ExecutionState.EXECUTING
+                    executionState =
+                        ExecutionState.EXECUTING
                 }
             }
             ExecutionState.EXECUTING -> {
@@ -97,38 +110,52 @@ internal class Handler(
         if (pointIndex == 0) {
             talons.forEach {
                 it.clearMotionProfileTrajectories()
-                it.configMotionProfileTrajectoryPeriod(profile.trajectoryPointPeriod, profile.timeoutMs)
+                it.configMotionProfileTrajectoryPeriod(
+                        profile.trajectoryPointPeriod, profile.timeoutMs)
                 it.clearMotionProfileHasUnderrun(profile.timeoutMs)
             }
         }
+
         updateMPStatuses()
         var maxFilled = statuses[0].btmBufferCnt
+
         for (status in statuses) {
             if (status.topBufferCnt > maxFilled) {
                 maxFilled = status.topBufferCnt
             }
         }
+
         var numPointsToFill = Constants.Talon.MAX_TOP_BUFFER_COUNT - maxFilled
         isFinished = false
+
         while (!isFinished && numPointsToFill > 0) {
             if (pointIndex >= profile.length) {
                 isFinished = true
                 break
             }
-            profile.leftProfile[pointIndex].zeroPos = false
-            profile.rightProfile[pointIndex].zeroPos = false
+
+            val leftPoint = profile.leftProfile.remove()
+            val rightPoint = profile.rightProfile.remove()
+
+            leftPoint.zeroPos = false
+            rightPoint.zeroPos = false
+
             if (pointIndex == 0) {
-                profile.leftProfile[pointIndex].zeroPos = true
-                profile.rightProfile[pointIndex].zeroPos = true
+                leftPoint.zeroPos = true
+                rightPoint.zeroPos = true
             }
-            profile.leftProfile[pointIndex].isLastPoint = false
-            profile.rightProfile[pointIndex].isLastPoint = false
+
+            leftPoint.isLastPoint = false
+            rightPoint.isLastPoint = false
+
             if (pointIndex + 1 == profile.length) {
-                profile.leftProfile[pointIndex].isLastPoint = true
-                profile.rightProfile[pointIndex].isLastPoint = true
+                leftPoint.isLastPoint = true
+                rightPoint.isLastPoint = true
             }
-            leftTalon.pushMotionProfileTrajectory(profile.leftProfile[pointIndex])
-            rightTalon.pushMotionProfileTrajectory(profile.rightProfile[pointIndex])
+
+            leftTalon.pushMotionProfileTrajectory(leftPoint)
+            rightTalon.pushMotionProfileTrajectory(rightPoint)
+
             pointIndex++
             numPointsToFill--
         }
@@ -150,11 +177,10 @@ internal class Handler(
 
     private inner class PeriodicBufferProcessor : Runnable {
         override fun run() {
-            for (i in 0 until statuses.size) {
-                if (statuses[i].btmBufferCnt < Constants.Talon.MAX_BTM_BUFFER_COUNT) {
+            for (i in 0 until statuses.size)
+                if (statuses[i].btmBufferCnt <
+                        Constants.Talon.MAX_BTM_BUFFER_COUNT)
                     talons[i].processMotionProfileBuffer()
-                }
-            }
         }
     }
 
