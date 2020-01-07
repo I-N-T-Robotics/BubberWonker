@@ -14,9 +14,6 @@ buildscript {
     }
 }
 
-Properties props = new Properties()
-props.load(new FileInputStream("$rootDir/bintray.properties"))
-
 apply plugin: 'kotlin'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven'
@@ -30,7 +27,7 @@ repositories {
     maven {
         url "https://frcmaven.wpi.edu/artifactory/release/"
     }
-    maven  {
+    maven {
         url "http://devsite.ctr-electronics.com/maven/release/"
     }
 }
@@ -84,9 +81,11 @@ publishing {
 }
 
 bintray {
-    user = props.getProperty("user")
-    key = props.getProperty("key")
-    publications  = ['rampage']
+    user = project.hasProperty('user') ? project.getProperty('user') : System
+            .getenv("BINTRAY_USER")
+    key = project.hasProperty('key') ? project.getProperty('key') : System
+            .getenv("BINTRAY_KEY")
+    publications = ['rampage']
     pkg {
         repo = "rampage"
         name = "rampage"
