@@ -1,6 +1,5 @@
 package com.rambots4571.rampage.function
 
-import edu.wpi.first.wpilibj2.command.InstantCommand
 import edu.wpi.first.wpilibj2.command.button.Trigger
 import java.util.function.Supplier
 
@@ -16,9 +15,5 @@ class SwitchAction<S>(private val stateSupplier: Supplier<S>) : Trigger() {
         prevState = currentState
         currentState = stateSupplier.get()
         return currentState != prevState
-    }
-
-    fun whenDiff(action: Runnable) {
-        whenActive(InstantCommand(action))
     }
 }
