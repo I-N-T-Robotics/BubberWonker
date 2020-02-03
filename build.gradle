@@ -20,7 +20,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'com.rambots4571'
-version '2020.1.2'
+version '2020.1.3'
 
 repositories {
     mavenCentral()
@@ -85,6 +85,7 @@ bintray {
             .getenv("BINTRAY_USER")
     key = project.hasProperty('key') ? project.getProperty('key') : System
             .getenv("BINTRAY_KEY")
+    override = true
     publications = ['rampage']
     pkg {
         repo = "rampage"
