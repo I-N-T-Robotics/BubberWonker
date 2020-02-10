@@ -2,7 +2,7 @@ package com.rambots4571.rampage.joystick
 
 import com.rambots4571.rampage.function.Pair
 import edu.wpi.first.wpilibj.GenericHID
-import edu.wpi.first.wpilibj2.command.CommandBase
+import edu.wpi.first.wpilibj2.command.InstantCommand
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import edu.wpi.first.wpilibj2.command.button.JoystickButton
 
@@ -13,25 +13,20 @@ class Button(joystick: GenericHID, buttonNumber: Int) :
         vararg subsystem: SubsystemBase): Button {
         var pair = Pair(action, defaultAction)
         val initialState = pair.copy()
-        (object : CommandBase() {
-            private var prevButton = get()
-
+        whenPressed(object : InstantCommand() {
             init {
                 requirements.addAll(subsystem)
             }
 
-            override fun execute() {
-                val currentButton = get()
-                if (!prevButton && currentButton) pair.swap()
-                pair.first.run()
+            override fun initialize() {
+                pair.swap()
+                pair.second.run()
             }
-
-            override fun isFinished(): Boolean = false
 
             override fun end(interrupted: Boolean) {
-                pair = initialState
+                if (interrupted) pair = initialState
             }
-        }).schedule()
+        })
         return this
     }
 }
