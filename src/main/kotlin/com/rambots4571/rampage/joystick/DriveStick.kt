@@ -28,4 +28,7 @@ class DriveStick(port: Int) : Joystick(port) {
 
     val zAxis: Double
         get() = getRawAxis(2)
+
+    val slider: Double
+        get() = getRawAxis(3)
 }
