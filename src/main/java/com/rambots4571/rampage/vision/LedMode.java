@@ -1,6 +1,6 @@
-package com.rambots4571.rampage.vision
+package com.rambots4571.rampage.vision;
 
-enum class LedMode(val value: Int) {
+public enum LedMode {
     /**
      * Sets the LEDs to the value set for the current pipeline.
      */
@@ -17,4 +17,9 @@ enum class LedMode(val value: Int) {
      * Forces the LEDs to turn on.
      */
     On(3);
+    public final int value;
+
+    LedMode(int value) {
+        this.value = value;
+    }
 }
