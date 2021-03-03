@@ -9,18 +9,15 @@ buildscript {
 
     dependencies {
         classpath "edu.wpi.first:GradleRIO:$wpilib_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+"
     }
 }
 
-apply plugin: 'kotlin'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'com.rambots4571'
-version '2020.2.0'
+version '2021.1.0'
 
 repositories {
     mavenCentral()
@@ -32,28 +29,15 @@ repositories {
     }
 }
 
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = 1.8
-    }
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = 1.8
-    }
-}
-
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "edu.wpi.first.wpilibj:wpilibj-java:$wpilib_version"
     implementation "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:$wpilib_version"
     implementation "edu.wpi.first.ntcore:ntcore-java:$wpilib_version"
     implementation "com.ctre.phoenix:api-java:$ctre_version"
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 jar {
     destinationDir = file("$rootDir/build/libs")
@@ -69,9 +53,19 @@ artifacts {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "rampage"
+            url = uri("https://maven.pkg.github.com/rambots/rampage")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
     publications {
-        rampage(MavenPublication) {
-            from components.kotlin
+        gpr(MavenPublication) {
+            from components.java
             artifact sourcesJar
             groupId "com.rambots4571"
             artifactId "rampage"
@@ -80,24 +74,6 @@ publishing {
     }
 }
 
-bintray {
-    user = project.hasProperty('user') ? project.getProperty('user') : System
-            .getenv("BINTRAY_USER")
-    key = project.hasProperty('key') ? project.getProperty('key') : System
-            .getenv("BINTRAY_KEY")
-    override = true
-    publications = ['rampage']
-    pkg {
-        repo = "rampage"
-        name = "rampage"
-        userOrg = "rambots"
-        licenses = ["MIT"]
-        vcsUrl = "https://github.com/rambots/rampage"
-        version {
-            name = this.version
-        }
-    }
-}
 
 wrapper {
     gradleVersion gradle_version
