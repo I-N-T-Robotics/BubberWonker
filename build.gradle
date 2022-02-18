@@ -24,7 +24,7 @@ repositories {
         url "https://frcmaven.wpi.edu/artifactory/release/"
     }
     maven {
-        url "http://maven.ctr-electronics.com/release/"
+        url "https://maven.ctr-electronics.com/release/"
     }
 }
 
