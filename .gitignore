@@ -5,6 +5,9 @@
 build
 
 /.idea/
+/.vscode/
+
+*.class
 
 .DS_Store
 bintray.properties

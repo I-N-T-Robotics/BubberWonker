@@ -1,79 +1,46 @@
 package com.rambots4571.rampage.joystick;
 
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class DriveStick extends Joystick {
-    private final JoystickButton button1 = new JoystickButton(this, 1);
-    private final JoystickButton button2 = new JoystickButton(this, 2);
-    private final JoystickButton button3 = new JoystickButton(this, 3);
-    private final JoystickButton button4 = new JoystickButton(this, 4);
-    private final JoystickButton button5 = new JoystickButton(this, 5);
-    private final JoystickButton button6 = new JoystickButton(this, 6);
-    private final JoystickButton button7 = new JoystickButton(this, 7);
-    private final JoystickButton button8 = new JoystickButton(this, 8);
-    private final JoystickButton button9 = new JoystickButton(this, 9);
-    private final JoystickButton button10 = new JoystickButton(this, 10);
-    private final JoystickButton button11 = new JoystickButton(this, 11);
-    private final JoystickButton button12 = new JoystickButton(this, 12);
+    private final HashMap<DriveStick.ButtonType, JoystickButton> buttons;
 
-    /**
-     * Construct an instance of a joystick. The joystick index is the USB
-     * port on the drivers
-     * station.
-     *
-     * @param port The port on the Driver Station that the joystick is plugged into.
-     */
+    public enum ButtonType implements Mappable {
+        button1(1),
+        button2(2),
+        button3(3),
+        button4(4),
+        button5(5),
+        button6(6),
+        button7(7),
+        button8(8),
+        button9(9),
+        button10(10),
+        button11(11),
+        button12(12);
+
+        private int id;
+
+        ButtonType(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public int getID() {
+            return id;
+        }
+    }
+
     public DriveStick(int port) {
         super(port);
+        buttons = Controller.getButtons(this, DriveStick.ButtonType.values());
     }
 
-    public JoystickButton getButton1() {
-        return button1;
-    }
-
-    public JoystickButton getButton2() {
-        return button2;
-    }
-
-    public JoystickButton getButton3() {
-        return button3;
-    }
-
-    public JoystickButton getButton4() {
-        return button4;
-    }
-
-    public JoystickButton getButton5() {
-        return button5;
-    }
-
-    public JoystickButton getButton6() {
-        return button6;
-    }
-
-    public JoystickButton getButton7() {
-        return button7;
-    }
-
-    public JoystickButton getButton8() {
-        return button8;
-    }
-
-    public JoystickButton getButton9() {
-        return button9;
-    }
-
-    public JoystickButton getButton10() {
-        return button10;
-    }
-
-    public JoystickButton getButton11() {
-        return button11;
-    }
-
-    public JoystickButton getButton12() {
-        return button12;
+    public JoystickButton get(ButtonType button) {
+        return buttons.get(button);
     }
 
     public double getXAxis() {
@@ -81,7 +48,7 @@ public class DriveStick extends Joystick {
     }
 
     public double getYAxis() {
-        // inverted because ot returns negative going forward
+        // inverted because it returns negative going forward
         return -getRawAxis(1);
     }
 

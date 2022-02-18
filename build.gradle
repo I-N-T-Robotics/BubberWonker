@@ -13,11 +13,10 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group 'com.rambots4571'
-version '2021.1.0'
+version '2022.1.0'
 
 repositories {
     mavenCentral()
@@ -25,7 +24,7 @@ repositories {
         url "https://frcmaven.wpi.edu/artifactory/release/"
     }
     maven {
-        url "http://devsite.ctr-electronics.com/maven/release/"
+        url "http://maven.ctr-electronics.com/release/"
     }
 }
 
@@ -36,8 +35,8 @@ dependencies {
     implementation "com.ctre.phoenix:api-java:$ctre_version"
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 jar {
     destinationDir = file("$rootDir/build/libs")

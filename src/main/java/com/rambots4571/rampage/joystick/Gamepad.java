@@ -1,19 +1,37 @@
 package com.rambots4571.rampage.joystick;
 
+import java.util.HashMap;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Gamepad extends Joystick {
-    private final JoystickButton a = new JoystickButton(this, 1);
-    private final JoystickButton b = new JoystickButton(this, 2);
-    private final JoystickButton x = new JoystickButton(this, 3);
-    private final JoystickButton y = new JoystickButton(this, 4);
-    private final JoystickButton leftBumper = new JoystickButton(this, 5);
-    private final JoystickButton rightBumper = new JoystickButton(this, 6);
-    private final JoystickButton backButton = new JoystickButton(this, 7);
-    private final JoystickButton startButton = new JoystickButton(this, 8);
-    private final JoystickButton leftStick = new JoystickButton(this, 9);
-    private final JoystickButton rightStick = new JoystickButton(this, 10);
+    private final HashMap<Gamepad.ButtonType, JoystickButton> buttons;
+
+    public enum ButtonType implements Mappable {
+        A(1),
+        B(2),
+        X(3),
+        Y(4),
+        LeftBumper(5),
+        RightBumper(6),
+        BackButton(7),
+        StartButton(8),
+        LeftStick(9),
+        RightStick(10);
+
+        private final int id;
+
+        ButtonType(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public int getID() {
+            return id;
+        }
+
+    }
 
     /**
      * Construct an instance of a joystick. The joystick index is the USB
@@ -24,46 +42,11 @@ public class Gamepad extends Joystick {
      */
     public Gamepad(int port) {
         super(port);
+        buttons = Controller.getButtons(this, Gamepad.ButtonType.values());
     }
 
-    public JoystickButton getButtonA() {
-        return a;
-    }
-
-    public JoystickButton getButtonB() {
-        return b;
-    }
-
-    public JoystickButton getButtonX() {
-        return x;
-    }
-
-    public JoystickButton getButtonY() {
-        return y;
-    }
-
-    public JoystickButton getLeftBumper() {
-        return leftBumper;
-    }
-
-    public JoystickButton getRightBumper() {
-        return rightBumper;
-    }
-
-    public JoystickButton getBackButton() {
-        return backButton;
-    }
-
-    public JoystickButton getStartButton() {
-        return startButton;
-    }
-
-    public JoystickButton getLeftStick() {
-        return leftStick;
-    }
-
-    public JoystickButton getRightStick() {
-        return rightStick;
+    public JoystickButton get(Gamepad.ButtonType button) {
+        return buttons.get(button);
     }
 
     public double getLeftXAxis() {
