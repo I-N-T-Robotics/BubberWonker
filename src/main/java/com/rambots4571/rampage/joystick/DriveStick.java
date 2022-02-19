@@ -1,12 +1,10 @@
 package com.rambots4571.rampage.joystick;
 
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class DriveStick extends Joystick {
-    private final HashMap<DriveStick.ButtonType, JoystickButton> buttons;
+    private final Buttons<DriveStick.ButtonType> buttons;
 
     public enum ButtonType implements Mappable {
         button1(1),
@@ -22,7 +20,7 @@ public class DriveStick extends Joystick {
         button11(11),
         button12(12);
 
-        private int id;
+        private final int id;
 
         ButtonType(int id) {
             this.id = id;
@@ -36,10 +34,10 @@ public class DriveStick extends Joystick {
 
     public DriveStick(int port) {
         super(port);
-        buttons = Controller.getButtons(this, DriveStick.ButtonType.values());
+        buttons = new Buttons<>(this);
     }
 
-    public JoystickButton get(ButtonType button) {
+    public JoystickButton get(DriveStick.ButtonType button) {
         return buttons.get(button);
     }
 

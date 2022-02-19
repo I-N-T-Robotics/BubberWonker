@@ -1,12 +1,10 @@
 package com.rambots4571.rampage.joystick;
 
-import java.util.HashMap;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Gamepad extends Joystick {
-    private final HashMap<Gamepad.ButtonType, JoystickButton> buttons;
+    private final Buttons<Gamepad.ButtonType> buttons;
 
     public enum ButtonType implements Mappable {
         A(1),
@@ -42,7 +40,7 @@ public class Gamepad extends Joystick {
      */
     public Gamepad(int port) {
         super(port);
-        buttons = Controller.getButtons(this, Gamepad.ButtonType.values());
+        buttons = new Buttons<>(this);
     }
 
     public JoystickButton get(Gamepad.ButtonType button) {
