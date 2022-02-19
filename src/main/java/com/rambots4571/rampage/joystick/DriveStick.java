@@ -32,29 +32,43 @@ public class DriveStick extends Joystick {
         }
     }
 
+    public enum Axis implements Mappable, Invertible {
+        xAxis(0), yAxis(1, true), zAxis(2), Slider(3);
+
+        private final int id;
+        private final boolean inverted;
+
+        Axis(int id, boolean inverted) {
+            this.id = id;
+            this.inverted = inverted;
+        }
+
+        Axis(int id) {
+            this.id = id;
+            this.inverted = false;
+        }
+
+        @Override
+        public boolean isInverted() {
+            return false;
+        }
+
+        @Override
+        public int getID() {
+            return 0;
+        }
+    }
+
     public DriveStick(int port) {
         super(port);
         buttons = new Buttons<>(this);
     }
 
-    public JoystickButton get(DriveStick.ButtonType button) {
+    public JoystickButton getButton(DriveStick.ButtonType button) {
         return buttons.get(button);
     }
 
-    public double getXAxis() {
-        return getRawAxis(0);
-    }
-
-    public double getYAxis() {
-        // inverted because it returns negative going forward
-        return -getRawAxis(1);
-    }
-
-    public double getZAxis() {
-        return getRawAxis(2);
-    }
-
-    public double getSlider() {
-        return getRawAxis(3);
+    public double getAxis(DriveStick.Axis axis) {
+        return axis.inverted ? -getRawAxis(axis.id) : getRawAxis(axis.id);
     }
 }

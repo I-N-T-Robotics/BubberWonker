@@ -31,6 +31,38 @@ public class Gamepad extends Joystick {
 
     }
 
+    public enum Axis implements Mappable, Invertible {
+        LeftXAxis(0),
+        LeftYAxis(1, true),
+        LeftTrigger(2),
+        RightTrigger(3),
+        RightXAxis(4),
+        RightYAxis(5, true);
+
+        private final int id;
+        private final boolean inverted;
+
+        Axis(int id, boolean inverted) {
+            this.id = id;
+            this.inverted = inverted;
+        }
+
+        Axis(int id) {
+            this.id = id;
+            this.inverted = false;
+        }
+
+        @Override
+        public int getID() {
+            return id;
+        }
+
+        @Override
+        public boolean isInverted() {
+            return inverted;
+        }
+    }
+
     /**
      * Construct an instance of a joystick. The joystick index is the USB
      * port on the drivers
@@ -43,31 +75,11 @@ public class Gamepad extends Joystick {
         buttons = new Buttons<>(this);
     }
 
-    public JoystickButton get(Gamepad.ButtonType button) {
+    public JoystickButton getButton(Gamepad.ButtonType button) {
         return buttons.get(button);
     }
 
-    public double getLeftXAxis() {
-        return getRawAxis(0);
-    }
-
-    public double getLeftYAxis() {
-        return -getRawAxis(1);
-    }
-
-    public double getLeftTrigger() {
-        return getRawAxis(2);
-    }
-
-    public double getRightXAxis() {
-        return getRawAxis(4);
-    }
-
-    public double getRightYAxis() {
-        return -getRawAxis(5);
-    }
-
-    public double getRightTrigger() {
-        return getRawAxis(3);
+    public double getAxis(Gamepad.Axis axis) {
+        return axis.inverted ? -getRawAxis(axis.id) : getRawAxis(axis.id);
     }
 }
