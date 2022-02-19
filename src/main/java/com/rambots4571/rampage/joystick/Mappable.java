@@ -7,5 +7,5 @@ public interface Mappable {
     /**
      * @return the Button number from driver station
      */
-    public int getID();
+    int getID();
 }
