@@ -1,4 +1,4 @@
-package com.rambots4571.rampage.joystick;
+package com.rambots4571.rampage.joystick.component;
 
 /**
  * Mappable interface where all Enum Button classes will inherit this.

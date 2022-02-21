@@ -1,9 +1,15 @@
 package com.rambots4571.rampage.joystick;
 
+import com.rambots4571.rampage.joystick.component.Buttons;
+import com.rambots4571.rampage.joystick.component.HasAxes;
+import com.rambots4571.rampage.joystick.component.HasButtons;
+import com.rambots4571.rampage.joystick.component.IAxis;
+import com.rambots4571.rampage.joystick.component.Mappable;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public class Gamepad extends Joystick {
+public class Gamepad extends Joystick implements HasButtons, HasAxes {
 	private final Buttons<Gamepad.ButtonType> buttons;
 
 	public enum ButtonType implements Mappable {
@@ -28,10 +34,9 @@ public class Gamepad extends Joystick {
 		public int getID() {
 			return id;
 		}
-
 	}
 
-	public enum Axis implements Mappable, Invertible {
+	public enum Axis implements IAxis {
 		LeftXAxis(0),
 		LeftYAxis(1, true),
 		LeftTrigger(2),
@@ -65,8 +70,7 @@ public class Gamepad extends Joystick {
 
 	/**
 	 * Construct an instance of a joystick. The joystick index is the USB
-	 * port on the drivers
-	 * station.
+	 * port on the drivers station.
 	 *
 	 * @param port The port on the Driver Station that the joystick is plugged
 	 *             into.
@@ -76,11 +80,13 @@ public class Gamepad extends Joystick {
 		buttons = new Buttons<>(this);
 	}
 
-	public JoystickButton getButton(Gamepad.ButtonType button) {
-		return buttons.get(button);
+	@Override
+	public JoystickButton getButton(Mappable button) {
+		return buttons.get((ButtonType) button);
 	}
 
-	public double getAxisValue(Gamepad.Axis axis) {
-		return axis.inverted ? -getRawAxis(axis.id) : getRawAxis(axis.id);
+	@Override
+	public double getAxisValue(IAxis axis) {
+		return axis.isInverted() ? -getRawAxis(axis.getID()) : getRawAxis(axis.getID());
 	}
 }
