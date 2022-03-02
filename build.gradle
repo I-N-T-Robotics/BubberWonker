@@ -32,6 +32,7 @@ dependencies {
     implementation "edu.wpi.first.wpilibj:wpilibj-java:$wpilib_version"
     implementation "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:$wpilib_version"
     implementation "edu.wpi.first.ntcore:ntcore-java:$wpilib_version"
+    implementation "edu.wpi.first.wpiutil:wpiutil-java:$wpilib_version"
     implementation "com.ctre.phoenix:api-java:$ctre_version"
 }
 
@@ -49,6 +50,10 @@ task sourcesJar(type: Jar) {
 
 artifacts {
     archives sourcesJar
+}
+
+compileJava {
+    dependsOn 'spotlessApply'
 }
 
 spotless {
