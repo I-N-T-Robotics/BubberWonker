@@ -4,7 +4,18 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public final class Limelight {
-	private static final NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+	private static Limelight instance;
+	private final NetworkTable table;
+
+	private Limelight() {
+		table = NetworkTableInstance.getDefault().getTable("limelight");
+	}
+
+	public static Limelight getInstance() {
+		if (instance == null)
+			instance = new Limelight();
+		return instance;
+	}
 
 	public enum CamMode {
 		/**
@@ -76,7 +87,7 @@ public final class Limelight {
 	 *
 	 * @param ledMode enum value
 	 */
-	public static void setLedMode(LedMode ledMode) {
+	public void setLedMode(LedMode ledMode) {
 		table.getEntry("ledMode").setNumber(ledMode.value);
 	}
 
@@ -85,7 +96,7 @@ public final class Limelight {
 	 *
 	 * @param camMode enum value
 	 */
-	public static void setCamMode(CamMode camMode) {
+	public void setCamMode(CamMode camMode) {
 		table.getEntry("camMode").setNumber(camMode.value);
 	}
 
@@ -94,7 +105,7 @@ public final class Limelight {
 	 *
 	 * @param number integer between 0 and 9
 	 */
-	public static void setPipeline(int number) {
+	public void setPipeline(int number) {
 		if (0 <= number && number <= 9)
 			table.getEntry("pipeline").setNumber(number);
 	}
@@ -106,7 +117,7 @@ public final class Limelight {
 	 * @param value enum value
 	 * @return a double check {@link ReadValue} for the ranges for each value
 	 */
-	public static double get(ReadValue value) {
+	public double get(ReadValue value) {
 		return table.getEntry(value.name()).getDouble(0);
 	}
 }
