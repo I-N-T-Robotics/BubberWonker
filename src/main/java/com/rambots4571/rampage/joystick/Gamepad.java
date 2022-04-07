@@ -1,18 +1,24 @@
 package com.rambots4571.rampage.joystick;
 
 import com.rambots4571.rampage.joystick.component.Buttons;
+import com.rambots4571.rampage.joystick.component.DPadButton;
+import com.rambots4571.rampage.joystick.component.DPadButton.Direction;
 import com.rambots4571.rampage.joystick.component.HasAxes;
 import com.rambots4571.rampage.joystick.component.HasButtons;
+import com.rambots4571.rampage.joystick.component.HasDPad;
 import com.rambots4571.rampage.joystick.component.IAxis;
 import com.rambots4571.rampage.joystick.component.Mappable;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import java.util.HashMap;
 
-public class Gamepad extends Joystick implements HasButtons, HasAxes {
+public class Gamepad extends Joystick implements HasButtons, HasAxes, HasDPad {
 	private final Buttons<Gamepad.ButtonType> buttons;
+	private final HashMap<Direction, Button> dPadButtons;
 
-	public enum ButtonType implements Mappable {
+	public static enum ButtonType implements Mappable {
 		A(1),
 		B(2),
 		X(3),
@@ -36,7 +42,7 @@ public class Gamepad extends Joystick implements HasButtons, HasAxes {
 		}
 	}
 
-	public enum Axis implements IAxis {
+	public static enum Axis implements IAxis {
 		LeftXAxis(0),
 		LeftYAxis(1, true),
 		LeftTrigger(2),
@@ -78,11 +84,23 @@ public class Gamepad extends Joystick implements HasButtons, HasAxes {
 	public Gamepad(int port) {
 		super(port);
 		buttons = new Buttons<>(this);
+		dPadButtons = new HashMap<>();
 	}
 
 	@Override
 	public JoystickButton getButton(Mappable button) {
 		return buttons.get((ButtonType) button);
+	}
+
+	@Override
+	public Button getDPadButton(Direction direction) {
+		if (dPadButtons.containsKey(direction))
+			return dPadButtons.get(direction);
+
+		Button button = new DPadButton(this, direction);
+		dPadButtons.put(direction, button);
+
+		return button;
 	}
 
 	@Override
