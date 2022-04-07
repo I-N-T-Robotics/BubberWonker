@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class DriveStick extends Joystick implements HasButtons, HasAxes {
 	private final Buttons<DriveStick.ButtonType> buttons;
 
-	public enum ButtonType implements Mappable {
+	public static enum ButtonType implements Mappable {
 		button1(1),
 		button2(2),
 		button3(3),
@@ -38,7 +38,7 @@ public class DriveStick extends Joystick implements HasButtons, HasAxes {
 		}
 	}
 
-	public enum Axis implements IAxis {
+	public static enum Axis implements IAxis {
 		xAxis(0),
 		yAxis(1, true),
 		zAxis(2),
