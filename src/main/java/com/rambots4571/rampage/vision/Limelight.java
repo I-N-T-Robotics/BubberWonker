@@ -115,6 +115,10 @@ public final class Limelight {
 		return table.getEntry(value.name());
 	}
 
+	public NetworkTableEntry getEntry(String s) {
+		return table.getEntry(s);
+	}
+
 	public double getValue(ReadValue value, double defaultValue) {
 		return table.getEntry(value.name()).getDouble(defaultValue);
 	}
