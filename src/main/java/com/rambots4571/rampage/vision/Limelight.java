@@ -1,6 +1,7 @@
 package com.rambots4571.rampage.vision;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public final class Limelight {
@@ -110,14 +111,15 @@ public final class Limelight {
 			table.getEntry("pipeline").setNumber(number);
 	}
 
-	/**
-	 * Get table values from the limelight. Check
-	 * {@link ReadValue} for all the values available.
-	 *
-	 * @param value enum value
-	 * @return a double check {@link ReadValue} for the ranges for each value
-	 */
-	public double get(ReadValue value) {
-		return table.getEntry(value.name()).getDouble(0);
+	public NetworkTableEntry getEntry(ReadValue value) {
+		return table.getEntry(value.name());
+	}
+
+	public double getValue(ReadValue value, double defaultValue) {
+		return table.getEntry(value.name()).getDouble(defaultValue);
+	}
+
+	public double getValue(ReadValue value) {
+		return getValue(value, Integer.MAX_VALUE);
 	}
 }
