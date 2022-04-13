@@ -1,45 +1,26 @@
 # Rampage
-Library for advance motion control
+
+Library for the Rambots
+
+Contains useful code that will be used through multiple seasons.
 
 ### How to use
 
-Add it in your build.gradle in repositories:
-
-Make a file in root called `gpr.gradle` then generate token from github in 
-order to read packages from the repos and add it here.
-
-ADD THIS TO `.gitignore`
+1. Add it in your root build.gradle at the end of repositories:
 
 ```gradle
-  ext {
-    user=<USERNAME>
-    key=<TOKEN>
-  }
-```
-
-Inside `build.gradle`
-
-```gradle
-  
-  apply from: 'gpr.gradle'
-  
+allprojects {
   repositories {
-    maven {
-      url = uri("https://maven.pkg.github.com/rambots/rampage")
-        credentials {
-            username = user
-            password = key
-        }
-    }
+    ...
+    maven { url 'https://jitpack.io' }
   }
+}
 ```
 
-
-
-Add the dependency
+2. Add the dependency
 
 ```gradle
 dependencies {
-  implementation 'com.rambots4571:rampage:2020.+'
+	implementation 'com.github.rambots:rampage:v2022.2.3'
 }
 ```
