@@ -1,24 +1,10 @@
 package com.rambots4571.rampage.joystick;
 
-import com.rambots4571.rampage.joystick.component.Buttons;
-import com.rambots4571.rampage.joystick.component.DPadButton;
-import com.rambots4571.rampage.joystick.component.DPadButton.Direction;
-import com.rambots4571.rampage.joystick.component.HasAxes;
-import com.rambots4571.rampage.joystick.component.HasButtons;
-import com.rambots4571.rampage.joystick.component.HasDPad;
 import com.rambots4571.rampage.joystick.component.IAxis;
 import com.rambots4571.rampage.joystick.component.Mappable;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.HashMap;
-
-public class Gamepad extends Joystick implements HasButtons, HasAxes, HasDPad {
-	private final Buttons<Gamepad.ButtonType> buttons;
-	private final HashMap<Direction, Button> dPadButtons;
-
-	public static enum ButtonType implements Mappable {
+public class Gamepad {
+	public static enum Button implements Mappable {
 		A(1),
 		B(2),
 		X(3),
@@ -32,7 +18,7 @@ public class Gamepad extends Joystick implements HasButtons, HasAxes, HasDPad {
 
 		private final int id;
 
-		ButtonType(int id) {
+		Button(int id) {
 			this.id = id;
 		}
 
@@ -50,22 +36,22 @@ public class Gamepad extends Joystick implements HasButtons, HasAxes, HasDPad {
 		RightXAxis(4),
 		RightYAxis(5, true);
 
-		private final int id;
+		private final int number;
 		private final boolean inverted;
 
-		Axis(int id, boolean inverted) {
-			this.id = id;
+		Axis(int number, boolean inverted) {
+			this.number = number;
 			this.inverted = inverted;
 		}
 
-		Axis(int id) {
-			this.id = id;
+		Axis(int number) {
+			this.number = number;
 			this.inverted = false;
 		}
 
 		@Override
-		public int getID() {
-			return id;
+		public int getNumber() {
+			return number;
 		}
 
 		@Override
@@ -74,37 +60,7 @@ public class Gamepad extends Joystick implements HasButtons, HasAxes, HasDPad {
 		}
 	}
 
-	/**
-	 * Construct an instance of a joystick. The joystick index is the USB
-	 * port on the drivers station.
-	 *
-	 * @param port The port on the Driver Station that the joystick is plugged
-	 *             into.
-	 */
-	public Gamepad(int port) {
-		super(port);
-		buttons = new Buttons<>(this);
-		dPadButtons = new HashMap<>();
-	}
-
-	@Override
-	public JoystickButton getButton(Mappable button) {
-		return buttons.get((ButtonType) button);
-	}
-
-	@Override
-	public Button getDPadButton(Direction direction) {
-		if (dPadButtons.containsKey(direction))
-			return dPadButtons.get(direction);
-
-		Button button = new DPadButton(this, direction);
-		dPadButtons.put(direction, button);
-
-		return button;
-	}
-
-	@Override
-	public double getAxisValue(IAxis axis) {
-		return axis.isInverted() ? -getRawAxis(axis.getID()) : getRawAxis(axis.getID());
+	public static Controller<Gamepad.Button, Gamepad.Axis> make(int port) {
+		return new Controller<Gamepad.Button, Gamepad.Axis>(port);
 	}
 }

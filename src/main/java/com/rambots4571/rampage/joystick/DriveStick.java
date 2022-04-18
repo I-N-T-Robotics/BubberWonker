@@ -1,18 +1,10 @@
 package com.rambots4571.rampage.joystick;
 
-import com.rambots4571.rampage.joystick.component.Buttons;
-import com.rambots4571.rampage.joystick.component.HasAxes;
-import com.rambots4571.rampage.joystick.component.HasButtons;
 import com.rambots4571.rampage.joystick.component.IAxis;
 import com.rambots4571.rampage.joystick.component.Mappable;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-public class DriveStick extends Joystick implements HasButtons, HasAxes {
-	private final Buttons<DriveStick.ButtonType> buttons;
-
-	public static enum ButtonType implements Mappable {
+public class DriveStick {
+	public static enum Button implements Mappable {
 		button1(1),
 		button2(2),
 		button3(3),
@@ -28,7 +20,7 @@ public class DriveStick extends Joystick implements HasButtons, HasAxes {
 
 		private final int id;
 
-		ButtonType(int id) {
+		Button(int id) {
 			this.id = id;
 		}
 
@@ -44,16 +36,16 @@ public class DriveStick extends Joystick implements HasButtons, HasAxes {
 		zAxis(2),
 		Slider(3);
 
-		private final int id;
+		private final int number;
 		private final boolean inverted;
 
-		Axis(int id, boolean inverted) {
-			this.id = id;
+		Axis(int number, boolean inverted) {
+			this.number = number;
 			this.inverted = inverted;
 		}
 
-		Axis(int id) {
-			this.id = id;
+		Axis(int number) {
+			this.number = number;
 			this.inverted = false;
 		}
 
@@ -63,23 +55,12 @@ public class DriveStick extends Joystick implements HasButtons, HasAxes {
 		}
 
 		@Override
-		public int getID() {
-			return id;
+		public int getNumber() {
+			return number;
 		}
 	}
 
-	public DriveStick(int port) {
-		super(port);
-		buttons = new Buttons<>(this);
-	}
-
-	@Override
-	public JoystickButton getButton(Mappable button) {
-		return buttons.get((ButtonType) button);
-	}
-
-	@Override
-	public double getAxisValue(IAxis axis) {
-		return axis.isInverted() ? -getRawAxis(axis.getID()) : getRawAxis(axis.getID());
+	public static Controller<DriveStick.Button, DriveStick.Axis> make(int port) {
+		return new Controller<DriveStick.Button, DriveStick.Axis>(port);
 	}
 }
