@@ -4,33 +4,33 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class DPadButton extends Button {
-	private final Joystick joystick;
-	private final Direction direction;
+  private final Joystick joystick;
+  private final Direction direction;
 
-	public DPadButton(Joystick joystick, Direction direction) {
-		this.joystick = joystick;
-		this.direction = direction;
-	}
+  public DPadButton(Joystick joystick, Direction direction) {
+    this.joystick = joystick;
+    this.direction = direction;
+  }
 
-	public static enum Direction {
-		UP(0),
-		RIGHT(90),
-		DOWN(180),
-		LEFT(270);
+  public static enum Direction {
+    UP(0),
+    RIGHT(90),
+    DOWN(180),
+    LEFT(270);
 
-		int value;
+    int value;
 
-		private Direction(int value) {
-			this.value = value;
-		}
-	}
+    private Direction(int value) {
+      this.value = value;
+    }
+  }
 
-	@Override
-	public boolean get() {
-		int dPadValue = joystick.getPOV();
+  @Override
+  public boolean get() {
+    int dPadValue = joystick.getPOV();
 
-		return (dPadValue == direction.value)
-		  || (dPadValue == (direction.value + 45) % 360) || (dPadValue == (direction.value + 315)
-		    % 360);
-	}
+    return (dPadValue == direction.value)
+      || (dPadValue == (direction.value + 45) % 360) || (dPadValue == (direction.value + 315)
+        % 360);
+  }
 }
