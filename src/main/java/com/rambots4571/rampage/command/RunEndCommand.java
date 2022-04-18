@@ -1,4 +1,4 @@
-package com.rambots4571.rampage.commands;
+package com.rambots4571.rampage.command;
 
 import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
