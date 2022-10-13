@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import java.util.function.BooleanSupplier;
 
 /**
- * A Command that is like {@link edu.wpi.first.wpilibj2.command.RunCommand}.
- * It takes a runnable that runs continuously but WITH an end() function.
+ * A Command that is like {@link edu.wpi.first.wpilibj2.command.RunCommand}. It takes a runnable
+ * that runs continuously but WITH an end() function.
  */
 public class RunEndCommand extends CommandBase {
   private final Runnable loopFunc;
@@ -15,8 +15,11 @@ public class RunEndCommand extends CommandBase {
   private final BooleanSupplier isFinished;
 
   /** Creates a new RunEndCommand. */
-  public RunEndCommand(Runnable loopFunc, BooleanConsumer endFunc, BooleanSupplier isFinished,
-    Subsystem... subsystems) {
+  public RunEndCommand(
+      Runnable loopFunc,
+      BooleanConsumer endFunc,
+      BooleanSupplier isFinished,
+      Subsystem... subsystems) {
     this.loopFunc = loopFunc;
     this.endFunc = endFunc;
     this.isFinished = isFinished;
@@ -30,8 +33,8 @@ public class RunEndCommand extends CommandBase {
     addRequirements(subsystems);
   }
 
-  public RunEndCommand(Runnable loopFunc, Runnable endFunc, BooleanSupplier isFinished,
-    Subsystem... subsystems) {
+  public RunEndCommand(
+      Runnable loopFunc, Runnable endFunc, BooleanSupplier isFinished, Subsystem... subsystems) {
     this.loopFunc = loopFunc;
     this.endFunc = b -> endFunc.run();
     this.isFinished = isFinished;

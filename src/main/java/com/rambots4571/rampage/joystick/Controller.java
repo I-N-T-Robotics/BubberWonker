@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class Controller<B extends Enum<B> & Mappable, A extends Enum<A> & IAxis> extends Joystick
-  implements HasButtons<B>, HasAxes<A>, HasDPad {
+    implements HasButtons<B>, HasAxes<A>, HasDPad {
   private final Buttons<B> buttons;
   private final DPadHandler dPadHandler;
 

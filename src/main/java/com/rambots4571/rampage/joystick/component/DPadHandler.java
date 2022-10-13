@@ -16,8 +16,7 @@ public class DPadHandler {
   }
 
   public Button get(Direction direction) {
-    if (buttons.containsKey(direction))
-      return buttons.get(direction);
+    if (buttons.containsKey(direction)) return buttons.get(direction);
 
     Button button = new DPadButton(joystick, direction);
     buttons.put(direction, button);

@@ -13,19 +13,14 @@ public final class Limelight {
   }
 
   public static Limelight getInstance() {
-    if (instance == null)
-      instance = new Limelight();
+    if (instance == null) instance = new Limelight();
     return instance;
   }
 
   public enum CamMode {
-    /**
-     * Used for vision processing.
-     */
+    /** Used for vision processing. */
     VisionCamera(0),
-    /**
-     * Disables vision processing and used as a driver camera.
-     */
+    /** Disables vision processing and used as a driver camera. */
     DriverCamera(1);
 
     public final int value;
@@ -36,21 +31,13 @@ public final class Limelight {
   }
 
   public enum LedMode {
-    /**
-     * Sets the LEDs to the value set for the current pipeline.
-     */
+    /** Sets the LEDs to the value set for the current pipeline. */
     PipelineDefault(0),
-    /**
-     * Forces the LEDs to turn off.
-     */
+    /** Forces the LEDs to turn off. */
     ForceOff(1),
-    /**
-     * Forces the LEDs to blink.
-     */
+    /** Forces the LEDs to blink. */
     ForceBlink(2),
-    /**
-     * Forces the LEDs to turn on.
-     */
+    /** Forces the LEDs to turn on. */
     ForceOn(3);
 
     public final int value;
@@ -61,18 +48,14 @@ public final class Limelight {
   }
 
   public enum Stream {
-    /**
-     * Side-by-side streams if a webcam is attached to Limelight
-     */
+    /** Side-by-side streams if a webcam is attached to Limelight */
     Standard(0),
     /**
-     * The secondary camera stream is placed in the lower-right
-     * corner of the primary camera stream
+     * The secondary camera stream is placed in the lower-right corner of the primary camera stream
      */
     PiP_Main(1),
     /**
-     * The primary camera stream is placed in the lower-right
-     * corner of the secondary camera stream
+     * The primary camera stream is placed in the lower-right corner of the secondary camera stream
      */
     PiP_Secondary(2);
 
@@ -107,8 +90,7 @@ public final class Limelight {
    * @param number integer between 0 and 9
    */
   public void setPipeline(int number) {
-    if (0 <= number && number <= 9)
-      table.getEntry("pipeline").setNumber(number);
+    if (0 <= number && number <= 9) table.getEntry("pipeline").setNumber(number);
   }
 
   public NetworkTableEntry getEntry(ReadValue value) {

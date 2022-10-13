@@ -52,7 +52,21 @@ artifacts {
     archives sourcesJar
 }
 
+def updateGitHooks = tasks.register('updateGitHooks', Copy) {
+    from './scripts/pre-commit'
+    into './.git/hooks'
+}
+
+def changePermission = tasks.register('changePermission', Exec) {
+    commandLine('chmod',  '+x', './.git/hooks/pre-commit')
+}
+
+changePermission.configure {
+    mustRunAfter updateGitHooks
+}
+
 compileJava {
+    dependsOn 'updateGitHooks'
     dependsOn 'spotlessApply'
 }
 
@@ -63,7 +77,9 @@ spotless {
             exclude '**/build/**', '**/build-*/**'
         }
         toggleOffOn()
-        eclipse().configFile('custom-code-style.xml')
+        ratchetFrom 'HEAD'
+        // eclipse().configFile('custom-code-style.xml')
+        googleJavaFormat()
         importOrder('com.rambots4571', 'edu.wpi')
         removeUnusedImports()
         trimTrailingWhitespace()
