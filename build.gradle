@@ -52,18 +52,16 @@ artifacts {
     archives sourcesJar
 }
 
-def updateGitHooks = tasks.register('updateGitHooks', Copy) {
+tasks.register('updateGitHooks', Copy) {
     from './scripts/pre-commit'
     into './.git/hooks'
 }
 
-def changePermission = tasks.register('changePermission', Exec) {
+tasks.register('changePermission', Exec) {
     commandLine('chmod',  '+x', './.git/hooks/pre-commit')
 }
 
-changePermission.configure {
-    mustRunAfter updateGitHooks
-}
+changePermission.mustRunAfter updateGitHooks
 
 compileJava {
     dependsOn 'updateGitHooks'
