@@ -14,6 +14,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: "com.diffplug.spotless"
+apply plugin: "edu.wpi.first.GradleRIO"
 
 group 'com.rambots4571'
 version '2022.1.0'
@@ -29,6 +30,9 @@ repositories {
 }
 
 dependencies {
+    implementation wpi.java.deps.wpilib()
+    implementation wpi.java.vendor.java()
+
     implementation "edu.wpi.first.wpilibj:wpilibj-java:$wpilib_version"
     implementation "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:$wpilib_version"
     implementation "edu.wpi.first.ntcore:ntcore-java:$wpilib_version"
