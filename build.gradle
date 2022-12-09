@@ -1,20 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-
-    dependencies {
-        classpath "edu.wpi.first:GradleRIO:$wpilib_version"
-        classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
-    }
+plugins {
+    id "java"
+    id "edu.wpi.first.GradleRIO" version "2022.4.1"
+    id 'com.diffplug.spotless' version '6.11.0'
 }
-
-apply plugin: 'java'
-apply plugin: "com.diffplug.spotless"
-apply plugin: "edu.wpi.first.GradleRIO"
 
 group 'com.rambots4571'
 version '2022.1.0'
@@ -32,12 +20,6 @@ repositories {
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
-
-    implementation "edu.wpi.first.wpilibj:wpilibj-java:$wpilib_version"
-    implementation "edu.wpi.first.wpilibNewCommands:wpilibNewCommands-java:$wpilib_version"
-    implementation "edu.wpi.first.ntcore:ntcore-java:$wpilib_version"
-    implementation "edu.wpi.first.wpiutil:wpiutil-java:$wpilib_version"
-    implementation "com.ctre.phoenix:api-java:$ctre_version"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
