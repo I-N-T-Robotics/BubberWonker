@@ -5,6 +5,10 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
 public final class TrajectoryInjectory {
 
@@ -30,5 +34,9 @@ public final class TrajectoryInjectory {
       trajectory = trajectory.concatenate(getTrajectory(paths[i]));
     }
     return trajectory;
+  }
+
+  public static PathPlannerTrajectory getPath(String path, double maxVel, double maxAccel) {
+    return PathPlanner.loadPath(path, maxVel, maxAccel);
   }
 }
