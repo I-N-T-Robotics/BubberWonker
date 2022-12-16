@@ -22,11 +22,11 @@ jobs:
       
       - name: replaces '/' to '~'
         uses: mad9000/actions-find-and-replace-string@1
-          id: findandreplace2
-          with:
-            source: ${{ steps.findandreplace.outputs.value }}
-            find: '/'
-            replace: '~'
+        id: findandreplace2
+        with:
+          source: ${{ steps.findandreplace.outputs.value }}
+          find: '/'
+          replace: '~'
 
       - name: update snapshot
         uses: badasintended/autojitpack@v1
