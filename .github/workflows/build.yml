@@ -22,7 +22,7 @@ jobs:
       - name: setup gradle ${{ env.GRADLE_VERSION }}
         uses: gradle/gradle-build-action@v2
         with:
-          gradle_version: ${{ env.GRADLE_VERSION }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: build project
         run: ./gradlew build
