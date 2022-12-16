@@ -1,0 +1,37 @@
+name: update jitpack branch snapshots
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      
+      - name: removes refs/heads/
+        uses: mad9000/actions-find-and-replace-string@1
+        id: findandreplace
+        with:
+          source: ${{ github.ref }}
+          find: 'refs/heads/'
+          replace: ''
+      
+      - name: replaces '/' to '~'
+        uses: mad9000/actions-find-and-replace-string@1
+          id: findandreplace2
+          with:
+            source: ${{ steps.findandreplace.outputs.value }}
+            find: '/'
+            replace: '~'
+
+      - name: update snapshot
+        uses: badasintended/autojitpack@v1
+        with:
+          version: ${{ steps.findandreplace2.outputs.value }}-SNAPSHOT
+
+
+    

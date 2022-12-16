@@ -1,0 +1,44 @@
+name: prepare release
+
+on: 
+  release:
+    types: [created]
+
+env:
+  JAVA_VERSION: 11
+  GRADLE_VERSION: 7.2
+
+jobs:
+  deploy:
+    name: prepare jar & update jitpack.io
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      
+      - name: set up jdk ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'microsoft'
+      
+      - name: setup gradle ${{ env.GRADLE_VERSION }}
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
+
+      - name: build ${{ github.event.release.tag_name }}
+        run: ./gradlew build -Pversion=${{ github.event.release.tag_name }}
+
+      - name: upload qssets to release
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: ./build/libs/*.jar
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update JitPack
+        uses: badasintended/autojitpack@v1
+        with:
+          version: ${{ github.event.release.tag_name }}
+
+      
