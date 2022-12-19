@@ -1,16 +1,19 @@
 package com.rambots4571.rampage.joystick.component;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-@SuppressWarnings("deprecation")
-public class DPadButton extends Button {
-  private final Joystick joystick;
-  private final Direction direction;
+public class DPadButton extends Trigger {
 
   public DPadButton(Joystick joystick, Direction direction) {
-    this.joystick = joystick;
-    this.direction = direction;
+    super(
+        () -> {
+          int dPadValue = joystick.getPOV();
+
+          return (dPadValue == direction.value)
+              || (dPadValue == (direction.value + 45) % 360)
+              || (dPadValue == (direction.value + 315) % 360);
+        });
   }
 
   public static enum Direction {
@@ -24,14 +27,5 @@ public class DPadButton extends Button {
     private Direction(int value) {
       this.value = value;
     }
-  }
-
-  @Override
-  public boolean getAsBoolean() {
-    int dPadValue = joystick.getPOV();
-
-    return (dPadValue == direction.value)
-        || (dPadValue == (direction.value + 45) % 360)
-        || (dPadValue == (direction.value + 315) % 360);
   }
 }

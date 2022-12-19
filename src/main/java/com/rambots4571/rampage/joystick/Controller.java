@@ -10,8 +10,7 @@ import com.rambots4571.rampage.joystick.component.IAxis;
 import com.rambots4571.rampage.joystick.component.Mappable;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.Button;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class Controller<B extends Enum<B> & Mappable, A extends Enum<A> & IAxis> extends Joystick
     implements HasButtons<B>, HasAxes<A>, HasDPad {
@@ -25,12 +24,12 @@ public class Controller<B extends Enum<B> & Mappable, A extends Enum<A> & IAxis>
   }
 
   @Override
-  public JoystickButton getButton(B button) {
+  public Trigger getButton(B button) {
     return buttons.get(button);
   }
 
   @Override
-  public Button getDPadButton(Direction direction) {
+  public Trigger getDPadButton(Direction direction) {
     return dPadHandler.get(direction);
   }
 

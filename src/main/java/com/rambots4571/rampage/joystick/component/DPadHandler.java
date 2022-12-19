@@ -3,12 +3,11 @@ package com.rambots4571.rampage.joystick.component;
 import com.rambots4571.rampage.joystick.component.DPadButton.Direction;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import java.util.HashMap;
 
-@SuppressWarnings("deprecation")
 public class DPadHandler {
-  private final HashMap<Direction, Button> buttons;
+  private final HashMap<Direction, Trigger> buttons;
   private final Joystick joystick;
 
   public DPadHandler(Joystick joystick) {
@@ -16,10 +15,10 @@ public class DPadHandler {
     buttons = new HashMap<>();
   }
 
-  public Button get(Direction direction) {
+  public Trigger get(Direction direction) {
     if (buttons.containsKey(direction)) return buttons.get(direction);
 
-    Button button = new DPadButton(joystick, direction);
+    Trigger button = new DPadButton(joystick, direction);
     buttons.put(direction, button);
 
     return button;
