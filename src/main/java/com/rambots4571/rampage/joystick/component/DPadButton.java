@@ -3,6 +3,7 @@ package com.rambots4571.rampage.joystick.component;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
+@SuppressWarnings("deprecation")
 public class DPadButton extends Button {
   private final Joystick joystick;
   private final Direction direction;
@@ -26,7 +27,7 @@ public class DPadButton extends Button {
   }
 
   @Override
-  public boolean get() {
+  public boolean getAsBoolean() {
     int dPadValue = joystick.getPOV();
 
     return (dPadValue == direction.value)

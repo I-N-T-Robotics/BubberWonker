@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import java.util.HashMap;
 
+@SuppressWarnings("deprecation")
 public class DPadHandler {
   private final HashMap<Direction, Button> buttons;
   private final Joystick joystick;
