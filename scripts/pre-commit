@@ -1,10 +1,10 @@
 #!/bin/sh
 
-echo 'making sure project builds correctly.'
+echo 'applying project codestyle'
 
 stagedFiles=$(git diff --staged --name-only)
 
-./gradlew build || exit 1
+./gradlew spotlessApply || exit 1
 
 RESULT=$?
 

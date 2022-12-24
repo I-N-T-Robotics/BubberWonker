@@ -8,21 +8,21 @@ group 'com.rambots4571'
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://frcmaven.wpi.edu/artifactory/release/"
-    }
-    maven {
-        url "https://maven.ctr-electronics.com/release/"
-    }
 }
 
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'org.mockito:mockito-core:4.10.0'
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
+
+test {
+   useJUnit()
+}
 
 jar {
     destinationDir = file("$rootDir/build/libs")
@@ -42,17 +42,6 @@ tasks.register('updateGitHooks', Copy) {
     into './.git/hooks'
 }
 
-tasks.register('changePermission', Exec) {
-    commandLine('chmod',  '+x', './.git/hooks/pre-commit')
-}
-
-changePermission.mustRunAfter updateGitHooks
-
-compileJava {
-    dependsOn 'updateGitHooks'
-    dependsOn 'spotlessApply'
-}
-
 spotless {
     java {
         target fileTree('.') {
@@ -61,7 +50,6 @@ spotless {
         }
         toggleOffOn()
         ratchetFrom 'HEAD'
-        // eclipse().configFile('custom-code-style.xml')
         googleJavaFormat()
         importOrder('com.rambots4571', 'edu.wpi')
         removeUnusedImports()
