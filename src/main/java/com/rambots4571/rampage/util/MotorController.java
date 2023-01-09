@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 
-
+@Deprecated
 public class MotorController implements Sendable {
   private final WPI_TalonFX motor;
   private final PIDTuner tuner;
@@ -53,22 +53,26 @@ public class MotorController implements Sendable {
   }
 
   // This only works for low gear with a 15.32:1 gear reduction
-  public double nativeUnitsToDistanceMeters(double sensorCounts, int encoderRes, double gearRatio, double wheelRadiusInch) {
+  public double nativeUnitsToDistanceMeters(
+      double sensorCounts, int encoderRes, double gearRatio, double wheelRadiusInch) {
     double motorRotations = (double) sensorCounts / encoderRes;
     double wheelRotations = motorRotations / gearRatio;
-    double positionMeters =
-        wheelRotations * (2 * Math.PI * Units.inchesToMeters(wheelRadiusInch));
+    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(wheelRadiusInch));
     return positionMeters;
   }
 
   // This only works for low gear with a 15.32:1 gear reduction
-  public double nativeUnitsToVelocity(double sensorCountsPer100ms, int encoderRes, double gearRatio, double wheelRadiusInch, int k100msPerSec) {
+  public double nativeUnitsToVelocity(
+      double sensorCountsPer100ms,
+      int encoderRes,
+      double gearRatio,
+      double wheelRadiusInch,
+      int k100msPerSec) {
     double motorRotationsPer100ms = sensorCountsPer100ms / encoderRes;
     double motorRotationsPerSecond = motorRotationsPer100ms * k100msPerSec;
     double wheelRotationsPerSecond = motorRotationsPerSecond * gearRatio;
     double VelocityMetersPerSec =
-        wheelRotationsPerSecond
-            * (2 * Math.PI * Units.inchesToMeters(wheelRadiusInch));
+        wheelRotationsPerSecond * (2 * Math.PI * Units.inchesToMeters(wheelRadiusInch));
     return VelocityMetersPerSec;
   }
 
