@@ -3,10 +3,9 @@ package com.rambots4571.rampage.motor;
 import com.ctre.phoenix.motorcontrol.can.BaseTalon;
 
 import com.rambots4571.rampage.math.Converter;
+import com.rambots4571.rampage.math.Converter.Conversion;
 import com.rambots4571.rampage.math.Converter.Unit;
 import com.rambots4571.rampage.tools.PIDTuner;
-
-import java.util.function.Function;
 
 public class TalonPID {
   public static enum Mode {
@@ -44,8 +43,7 @@ public class TalonPID {
         : talon.getSelectedSensorVelocity(kPIDLoopIdx);
   }
 
-  public void addConversion(
-      Unit unit, Function<Double, Double> rawToUnit, Function<Double, Double> unitToRaw) {
+  public void addConversion(Unit unit, Conversion rawToUnit, Conversion unitToRaw) {
     converter.addConversion(unit, rawToUnit, unitToRaw);
   }
 
