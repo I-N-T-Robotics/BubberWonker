@@ -5,7 +5,6 @@ import edu.wpi.first.math.Pair;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
-import java.util.function.Function;
 
 public class Converter {
 
@@ -19,20 +18,22 @@ public class Converter {
     RPM;
   }
 
+  public static interface Conversion {
+    double apply(double value);
+  }
+
   private DoubleSupplier baseValue;
   // Pair: 1 - converts raw to unit
   // Pair: 2 - converts unit to raw
-  private Map<Unit, Pair<Function<Double, Double>, Function<Double, Double>>> converterFuncs;
+  private Map<Unit, Pair<Conversion, Conversion>> converterFuncs;
 
   public Converter(DoubleSupplier baseValue) {
     this.baseValue = baseValue;
     converterFuncs = new HashMap<>(6);
   }
 
-  public void addConversion(
-      Unit unit, Function<Double, Double> rawToUnit, Function<Double, Double> unitToRaw) {
-    converterFuncs.put(
-        unit, new Pair<Function<Double, Double>, Function<Double, Double>>(rawToUnit, unitToRaw));
+  public void addConversion(Unit unit, Conversion rawToUnit, Conversion unitToRaw) {
+    converterFuncs.put(unit, new Pair<Conversion, Conversion>(rawToUnit, unitToRaw));
   }
 
   public double get(Unit unit) {
