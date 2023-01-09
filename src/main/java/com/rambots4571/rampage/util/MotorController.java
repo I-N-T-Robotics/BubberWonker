@@ -17,8 +17,6 @@ public class MotorController implements Sendable {
   private int kPIDLoopIdx;
   private final int timeoutMs = 10;
 
-  private double targetRPM, toleranceRPM;
-
   public MotorController(WPI_TalonFX motor) {
     this.motor = motor;
     this.tuner = new PIDTuner();
@@ -51,40 +49,8 @@ public class MotorController implements Sendable {
     return this.tuner;
   }
 
-  /**
-   * How much RPM can it be off by
-   *
-   * @param rpm
-   */
-  public void setTolerance(double rpm) {
-    toleranceRPM = rpm;
-    motor.configAllowableClosedloopError(kPIDLoopIdx, convertRPMToRaw(rpm));
-  }
-
   public double getRawSpeed() {
     return motor.getSelectedSensorVelocity(kPIDLoopIdx);
-  }
-
-  public double convertRawToRPM(double ticksPer100ms) {
-    return ticksPer100ms * 600.0 / 2048.0;
-  }
-
-  public double convertRPMToRaw(double rpm) {
-    return rpm * 2048.0 / 600.0;
-  }
-
-  public double getRPM() {
-    return convertRawToRPM(getRawSpeed());
-  }
-
-  public void setRPM(double rpm) {
-    targetRPM = rpm;
-    double rawSpeed = convertRPMToRaw(rpm);
-    motor.set(ControlMode.Velocity, rawSpeed);
-  }
-
-  public boolean isAtSpeed() {
-    return Math.abs(targetRPM - getRPM()) < toleranceRPM;
   }
 
   // This only works for low gear with a 15.32:1 gear reduction
