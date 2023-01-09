@@ -1,6 +1,5 @@
 package com.rambots4571.rampage.util;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import com.rambots4571.rampage.tools.PIDTuner;
@@ -77,8 +76,5 @@ public class MotorController implements Sendable {
   public void initSendable(SendableBuilder builder) {
     builder.setSmartDashboardType("MotorController");
     builder.addDoubleProperty("raw speed", this::getRawSpeed, null);
-    builder.addDoubleProperty("rpm", this::getRPM, null);
-    builder.addDoubleProperty("target RPM", () -> this.targetRPM, null);
-    builder.addBooleanProperty("is at speed", this::isAtSpeed, null);
   }
 }
