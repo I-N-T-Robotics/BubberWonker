@@ -1,14 +1,14 @@
-package com.rambots4571.rampage.joystick.component;
+package com.rambots4571.rampage.controller.component;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class DPadButton extends Trigger {
 
-  public DPadButton(Joystick joystick, Direction direction) {
+  public DPadButton(GenericHID controller, Direction direction) {
     super(
         () -> {
-          int dPadValue = joystick.getPOV();
+          int dPadValue = controller.getPOV();
 
           return (dPadValue == direction.value)
               || (dPadValue == (direction.value + 45) % 360)
