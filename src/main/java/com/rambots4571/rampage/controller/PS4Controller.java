@@ -1,26 +1,14 @@
 package com.rambots4571.rampage.controller;
 
-import com.rambots4571.rampage.controller.component.Buttons;
-import com.rambots4571.rampage.controller.component.DPadHandler;
-import com.rambots4571.rampage.controller.component.HasAxes;
-import com.rambots4571.rampage.controller.component.HasButtons;
-import com.rambots4571.rampage.controller.component.HasDPad;
 import com.rambots4571.rampage.controller.component.IAxis;
 import com.rambots4571.rampage.controller.component.Mappable;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class PS4Controller extends GenericHID
-    implements HasButtons<PS4Controller.Button>, HasAxes<PS4Controller.Axis>, HasDPad {
-  private final Buttons<Button> buttons;
-  private final DPadHandler dPadHandler;
+public class PS4Controller extends Controller<PS4Controller.Button, PS4Controller.Axis> {
 
-  public PS4Controller(int port) {
-    super(port);
-    this.buttons = new Buttons<>(this);
-    this.dPadHandler = new DPadHandler(this);
-  }
-
+  @AllArgsConstructor
   public static enum Button implements Mappable {
     Square(1),
     Cross(2),
@@ -39,16 +27,14 @@ public class PS4Controller extends GenericHID
 
     private final int id;
 
-    Button(int id) {
-      this.id = id;
-    }
-
     @Override
     public int getID() {
       return id;
     }
   }
 
+  @AllArgsConstructor
+  @Getter
   public static enum Axis implements IAxis {
     LeftX(0),
     LeftY(1, true),
@@ -60,34 +46,13 @@ public class PS4Controller extends GenericHID
     private final int number;
     private final boolean inverted;
 
-    Axis(int number, boolean inverted) {
-      this.number = number;
-      this.inverted = inverted;
-    }
-
     Axis(int number) {
       this.number = number;
       this.inverted = false;
     }
-
-    @Override
-    public int getNumber() {
-      return number;
-    }
-
-    @Override
-    public boolean isInverted() {
-      return inverted;
-    }
   }
 
-  @Override
-  public Buttons<Button> getButtonsMap() {
-    return buttons;
-  }
-
-  @Override
-  public DPadHandler getDPadHandler() {
-    return dPadHandler;
+  public PS4Controller(int port) {
+    super(port);
   }
 }
