@@ -1,9 +1,26 @@
 package com.rambots4571.rampage.joystick;
 
+import com.rambots4571.rampage.joystick.component.Buttons;
+import com.rambots4571.rampage.joystick.component.DPadHandler;
+import com.rambots4571.rampage.joystick.component.HasAxes;
+import com.rambots4571.rampage.joystick.component.HasButtons;
+import com.rambots4571.rampage.joystick.component.HasDPad;
 import com.rambots4571.rampage.joystick.component.IAxis;
 import com.rambots4571.rampage.joystick.component.Mappable;
 
-public class DriveStick {
+import edu.wpi.first.wpilibj.GenericHID;
+
+public class DriveStick extends GenericHID
+    implements HasButtons<DriveStick.Button>, HasAxes<DriveStick.Axis>, HasDPad {
+  private final Buttons<Button> buttons;
+  private final DPadHandler dPadHandler;
+
+  public DriveStick(int port) {
+    super(port);
+    this.buttons = new Buttons<>(this);
+    this.dPadHandler = new DPadHandler(this);
+  }
+
   public static enum Button implements Mappable {
     button1(1),
     button2(2),
@@ -60,7 +77,13 @@ public class DriveStick {
     }
   }
 
-  public static Controller<DriveStick.Button, DriveStick.Axis> make(int port) {
-    return new Controller<DriveStick.Button, DriveStick.Axis>(port);
+  @Override
+  public Buttons<Button> getButtonsMap() {
+    return buttons;
+  }
+
+  @Override
+  public DPadHandler getDPadHandler() {
+    return dPadHandler;
   }
 }
