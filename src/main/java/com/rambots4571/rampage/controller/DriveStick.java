@@ -1,12 +1,12 @@
-package com.rambots4571.rampage.joystick;
+package com.rambots4571.rampage.controller;
 
-import com.rambots4571.rampage.joystick.component.Buttons;
-import com.rambots4571.rampage.joystick.component.DPadHandler;
-import com.rambots4571.rampage.joystick.component.HasAxes;
-import com.rambots4571.rampage.joystick.component.HasButtons;
-import com.rambots4571.rampage.joystick.component.HasDPad;
-import com.rambots4571.rampage.joystick.component.IAxis;
-import com.rambots4571.rampage.joystick.component.Mappable;
+import com.rambots4571.rampage.controller.component.Buttons;
+import com.rambots4571.rampage.controller.component.DPadHandler;
+import com.rambots4571.rampage.controller.component.HasAxes;
+import com.rambots4571.rampage.controller.component.HasButtons;
+import com.rambots4571.rampage.controller.component.HasDPad;
+import com.rambots4571.rampage.controller.component.IAxis;
+import com.rambots4571.rampage.controller.component.Mappable;
 
 import edu.wpi.first.wpilibj.GenericHID;
 

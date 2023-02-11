@@ -1,6 +1,6 @@
-package com.rambots4571.rampage.joystick.component;
+package com.rambots4571.rampage.controller.component;
 
-import com.rambots4571.rampage.joystick.component.DPadButton.Direction;
+import com.rambots4571.rampage.controller.component.DPadButton.Direction;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;

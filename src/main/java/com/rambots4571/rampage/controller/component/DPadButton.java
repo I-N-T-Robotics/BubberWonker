@@ -1,4 +1,4 @@
-package com.rambots4571.rampage.joystick.component;
+package com.rambots4571.rampage.controller.component;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
