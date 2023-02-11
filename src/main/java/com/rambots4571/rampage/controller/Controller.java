@@ -9,25 +9,17 @@ import com.rambots4571.rampage.controller.component.IAxis;
 import com.rambots4571.rampage.controller.component.Mappable;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import lombok.Getter;
 
+@Getter
 public class Controller<B extends Enum<B> & Mappable, A extends Enum<A> & IAxis> extends GenericHID
     implements HasButtons<B>, HasAxes<A>, HasDPad {
-  private final Buttons<B> buttons;
+  private final Buttons<B> buttonsMap;
   private final DPadHandler dPadHandler;
 
   public Controller(int port) {
     super(port);
-    buttons = new Buttons<>(this);
+    buttonsMap = new Buttons<>(this);
     dPadHandler = new DPadHandler(this);
-  }
-
-  @Override
-  public Buttons<B> getButtonsMap() {
-    return buttons;
-  }
-
-  @Override
-  public DPadHandler getDPadHandler() {
-    return dPadHandler;
   }
 }
