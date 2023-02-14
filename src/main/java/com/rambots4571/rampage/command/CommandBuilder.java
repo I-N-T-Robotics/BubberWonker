@@ -15,7 +15,6 @@ public class CommandBuilder {
   private Subsystem[] requirements;
 
   public CommandBuilder() {}
-  ;
 
   public CommandBuilder init(Runnable init) {
     this.init = init;
