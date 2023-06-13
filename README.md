@@ -21,6 +21,6 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.rambots:rampage:v2022.2.3'
+	implementation 'com.github.rambots:rampage:v2023.2.2'
 }
 ```
