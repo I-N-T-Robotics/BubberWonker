@@ -11,7 +11,6 @@ Contains useful code that will be used through multiple seasons.
 ```gradle
 allprojects {
   repositories {
-    ...
     maven { url 'https://jitpack.io' }
   }
 }
