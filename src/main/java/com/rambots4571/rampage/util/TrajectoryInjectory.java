@@ -1,8 +1,5 @@
 package com.rambots4571.rampage.util;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,9 +30,5 @@ public final class TrajectoryInjectory {
       trajectory = trajectory.concatenate(getTrajectory(paths[i]));
     }
     return trajectory;
-  }
-
-  public static PathPlannerTrajectory getPath(String path, double maxVel, double maxAccel) {
-    return PathPlanner.loadPath(path, maxVel, maxAccel);
   }
 }
