@@ -58,4 +58,13 @@ public class CommandBuilder {
   public Command build(Subsystem... subsystems) {
     return new FunctionalCommand(init, execute, end, isFinished, subsystems);
   }
+
+  public static Command runEndCommand(Runnable execute, Runnable end, Subsystem... subsystems) {
+    return new CommandBuilder().execute(execute).isFinished(false).end(end).build(subsystems);
+  }
+
+  public static Command runEndCommand(
+      Runnable execute, Consumer<Boolean> end, Subsystem... subsystems) {
+    return new CommandBuilder().execute(execute).isFinished(false).end(end).build(subsystems);
+  }
 }
