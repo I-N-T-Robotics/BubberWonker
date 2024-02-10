@@ -1,10 +1,10 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.1.1"
-    id 'com.diffplug.spotless' version '6.11.0'
+    id "edu.wpi.first.GradleRIO" version "2024.2.1"
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 
-group 'com.rambots4571'
+group 'frc.introbotics'
 
 repositories {
     mavenCentral()
@@ -14,8 +14,8 @@ dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
 
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testImplementation 'org.mockito:mockito-core:4.10.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
@@ -23,8 +23,10 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
 }
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
 test {
     useJUnitPlatform()
@@ -32,12 +34,11 @@ test {
 }
 
 jar {
-    destinationDir = file("$rootDir/build/libs")
+    destinationDirectory = file("$rootDir/build/libs")
 }
 
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
     from sourceSets.main.allSource
-    classifier = 'sources'
 }
 
 artifacts {
