@@ -9,8 +9,8 @@ on:
       - master
 
 env:
-  JAVA_VERSION: 11
-  GRADLE_VERSION: 7.2
+  JAVA_VERSION: 17
+  GRADLE_VERSION: 8.5
 
 jobs:
   spotless-check:
@@ -57,4 +57,3 @@ jobs:
 
     - name: build project
       run: ./gradlew build
-      
