@@ -1,10 +1,11 @@
 plugins {
-    id "java"
+    id 'java-library'
+    id 'maven-publish'
     id "edu.wpi.first.GradleRIO" version "2024.2.1"
     id 'com.diffplug.spotless' version '6.25.0'
 }
 
-group 'frc.introbotics'
+group 'com.github.I-N-T-Robotics'
 
 repositories {
     mavenCentral()
@@ -26,6 +27,7 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+    withSourcesJar()
 }
 
 test {
@@ -35,14 +37,6 @@ test {
 
 jar {
     destinationDirectory = file("$rootDir/build/libs")
-}
-
-tasks.register('sourcesJar', Jar) {
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives sourcesJar
 }
 
 tasks.register('updateGitHooks', Copy) {
@@ -59,7 +53,6 @@ spotless {
         toggleOffOn()
         ratchetFrom 'HEAD'
         googleJavaFormat()
-        importOrder('com.rambots4571', 'edu.wpi')
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()
@@ -72,4 +65,12 @@ wrapper {
 
 compileJava {
     dependsOn 'spotlessApply'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
 }
