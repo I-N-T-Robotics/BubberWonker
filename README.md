@@ -1,6 +1,6 @@
 # Rampage
 
-Library for the Rambots
+Library for I.N.T Robotics
 
 Contains useful code that will be used through multiple seasons.
 
@@ -20,7 +20,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.rambots:rampage:v2023.2.2'
+	implementation 'com.github.I-N-T-Robotics:BubberWonker:v2024.1.0'
 }
 ```
 
