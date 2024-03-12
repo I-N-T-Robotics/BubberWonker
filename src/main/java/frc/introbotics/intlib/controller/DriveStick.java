@@ -8,7 +8,8 @@ import lombok.Getter;
 public class DriveStick extends Controller<DriveStick.Button, DriveStick.Axis> {
 
   @AllArgsConstructor
-  public static enum Button implements Mappable {
+  @Getter
+  public enum Button implements Mappable {
     button1(1),
     button2(2),
     button3(3),
@@ -23,16 +24,11 @@ public class DriveStick extends Controller<DriveStick.Button, DriveStick.Axis> {
     button12(12);
 
     private final int id;
-
-    @Override
-    public int getID() {
-      return id;
-    }
   }
 
   @Getter
   @AllArgsConstructor
-  public static enum Axis implements IAxis {
+  public enum Axis implements IAxis {
     xAxis(0),
     yAxis(1, true),
     zAxis(2),
