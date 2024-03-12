@@ -2,7 +2,6 @@ package frc.introbotics.intlib.controller.component;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
 import java.util.HashMap;
 
 public class Buttons<B extends Enum<B> & Mappable> {
@@ -19,7 +18,7 @@ public class Buttons<B extends Enum<B> & Mappable> {
       return buttonsMap.get(button);
     }
 
-    Trigger trigger = new Trigger(() -> controller.getRawButton(button.getID()));
+    Trigger trigger = new Trigger(() -> controller.getRawButton(button.getId()));
     buttonsMap.put(button, trigger);
 
     return trigger;

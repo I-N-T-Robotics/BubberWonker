@@ -8,7 +8,8 @@ import lombok.Getter;
 public class PS4Controller extends Controller<PS4Controller.Button, PS4Controller.Axis> {
 
   @AllArgsConstructor
-  public static enum Button implements Mappable {
+  @Getter
+  public enum Button implements Mappable {
     Square(1),
     Cross(2),
     Circle(3),
@@ -25,16 +26,11 @@ public class PS4Controller extends Controller<PS4Controller.Button, PS4Controlle
     Touchpad(14);
 
     private final int id;
-
-    @Override
-    public int getID() {
-      return id;
-    }
   }
 
   @AllArgsConstructor
   @Getter
-  public static enum Axis implements IAxis {
+  public enum Axis implements IAxis {
     LeftX(0),
     LeftY(1, true),
     RightX(2),

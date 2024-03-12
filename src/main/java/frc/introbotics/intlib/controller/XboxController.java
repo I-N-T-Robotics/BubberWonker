@@ -5,8 +5,7 @@ import frc.introbotics.intlib.controller.component.Mappable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class Gamepad extends Controller<Gamepad.Button, Gamepad.Axis> {
-
+public class XboxController extends Controller<XboxController.Button, XboxController.Axis> {
   @AllArgsConstructor
   @Getter
   public enum Button implements Mappable {
@@ -16,8 +15,8 @@ public class Gamepad extends Controller<Gamepad.Button, Gamepad.Axis> {
     Y(4),
     LeftBumper(5),
     RightBumper(6),
-    BackButton(7),
-    StartButton(8),
+    Back(7),
+    Start(8),
     LeftStick(9),
     RightStick(10);
 
@@ -43,7 +42,7 @@ public class Gamepad extends Controller<Gamepad.Button, Gamepad.Axis> {
     }
   }
 
-  public Gamepad(int port) {
+  public XboxController(int port) {
     super(port);
   }
 }
