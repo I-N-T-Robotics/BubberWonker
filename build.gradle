@@ -16,7 +16,7 @@ dependencies {
     implementation wpi.java.vendor.java()
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
-	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testImplementation 'org.mockito:mockito-core:4.10.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
@@ -68,6 +68,16 @@ compileJava {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "gpr"
+            url = "https://maven.pkg.github.com/I-N-T-Robotics/BubberWonker"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
     publications {
         maven(MavenPublication) {
             from components.java
