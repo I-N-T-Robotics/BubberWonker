@@ -9,8 +9,8 @@ on:
       - master
 
 jobs:
-  spotless-check:
-    name: spotless check
+  ci:
+    name: spotless check + build
     runs-on: ubuntu-latest
     steps:
     - name: checkout
