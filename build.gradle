@@ -39,11 +39,6 @@ jar {
     destinationDirectory = file("$rootDir/build/libs")
 }
 
-tasks.register('updateGitHooks', Copy) {
-    from './scripts/pre-commit'
-    into './.git/hooks'
-}
-
 spotless {
     java {
         target fileTree('.') {
