@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  spotless-check:
+    name: spotless check
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - uses: ./.github/actions/setup
+
+    - name: spotless check
+      run: ./gradlew spotlessCheck
+
+    - name: build project
+      run: ./gradlew build
