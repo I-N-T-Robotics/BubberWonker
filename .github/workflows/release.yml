@@ -5,12 +5,12 @@ on:
     types: [created]
 
 jobs:
-  deploy:
-    name: prepare jar & update jitpack.io
+  upload-artifact:
+    name: upload artifact
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup
 
@@ -23,7 +23,25 @@ jobs:
           files: ./build/libs/*.jar
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
+  update-jitpack:
+    name: update jitpack releases
+    runs-on: ubuntu-latest
+    steps:
       - name: Update JitPack
         uses: badasintended/autojitpack@v1
         with:
           version: ${{ github.event.release.tag_name }}
+
+  upload-package:
+    name: upload github package registry
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup
+
+      - name: publish to gpr
+        run: ./gradlew publishMavenPublicationToGprRepository -Pversion=${{ github.event.release.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GPR_TOKEN }}
