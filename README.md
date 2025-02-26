@@ -1,4 +1,4 @@
-# Rampage
+# INTLib
 
 Library for I.N.T Robotics
 
